@@ -50,26 +50,26 @@ export default async function LocalizedPage({ params }: { params: Promise<{ loca
   if (isHome) {
     return (
       <main className="localized-home">
-        <div className="localized-kicker">{eyebrow}</div>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        <Link className="button button-dark" href={`/${locale}/contacto`}>{copy.cta} <span>↗</span></Link>
+        <div className="localized-kicker" data-reveal>{eyebrow}</div>
+        <h1 data-reveal data-reveal-delay="0.08">{title}</h1>
+        <p data-reveal data-reveal-delay="0.16">{description}</p>
+        <Link className="button button-dark" href={`/${locale}/contacto`} data-reveal data-reveal-delay="0.24">{copy.cta}</Link>
       </main>
     );
   }
 
   return (
     <main className="content-page">
-      <Link className="back-link" href={`/${locale}`}>← {copy.back}</Link>
+      <Link className="back-link" href={`/${locale}`} data-reveal>← {copy.back}</Link>
       <div className="content-page-grid">
-        <div>
+        <div data-reveal>
           <div className="eyebrow"><span className="status-dot" /> {eyebrow}</div>
           <h1>{title}</h1>
         </div>
-        <div className="content-page-body">
+        <div className="content-page-body" data-reveal data-reveal-delay="0.12">
           <p className="content-lede">{description}</p>
           <p>{copy.detail}</p>
-          <Link className="button button-dark" href={`/${locale}/contacto`}>{copy.cta} <span>↗</span></Link>
+          <Link className="button button-dark" href={`/${locale}/contacto`}>{copy.cta}</Link>
         </div>
       </div>
     </main>

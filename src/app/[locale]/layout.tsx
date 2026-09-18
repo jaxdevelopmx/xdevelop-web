@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale, locales } from "@/content/site";
+import { MotionReveal } from "@/components/motion-reveal";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -25,6 +26,7 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
         </div>
       </header>
       {children}
+      <MotionReveal />
     </div>
   );
 }

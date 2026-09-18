@@ -12,8 +12,8 @@ const onest = Onest({
 export const metadata: Metadata = {
   metadataBase: new URL("https://xdevelop.mx"),
   title: {
-    default: "XDEVELOP — Software para operaciones que no pueden detenerse",
-    template: "%s — XDEVELOP",
+    default: "XDEVELOP · Software para operaciones que no pueden detenerse",
+    template: "%s · XDEVELOP",
   },
   description:
     "Revisamos, continuamos, modernizamos y operamos software que ya importa para tu empresa.",

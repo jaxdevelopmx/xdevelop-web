@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SceneLoader } from "@/components/scene-loader";
 import { ClientSection } from "@/components/client-section";
+import { MotionReveal } from "@/components/motion-reveal";
 
 const entryPoints = [
   {
@@ -43,9 +44,24 @@ const cases = [
   ["UNAM", "Educación y trámites", "−70%", "Trámites que antes exigían acudir y formarse ahora se resuelven en línea."],
   ["TWBA", "Recursos humanos", "20 min", "Un reporte REPSE que requería tres días de captura."],
   ["SGT", "Personal en campo", "100%", "Reportes acompañados por fotografía, ubicación y hora."],
-  ["Residia", "Administración de condominios", "−60%", "Accesos, cobranza e incidencias reunidos en un mismo producto."],
   ["ICEE", "Logística de última milla", "−35%", "Información y evidencia conectadas con el proceso operativo."],
-  ["Maicero", "Alimentos", "97.7%", "Ventas registradas con fotografía de evidencia."],
+];
+
+const products = [
+  {
+    name: "Maicero",
+    tag: "Producto propio XDEVELOP",
+    metric: "97.7%",
+    blurb: "La experiencia de operar Maicero conecta el desarrollo con ventas, registros y evidencia del trabajo diario.",
+    action: "Conocer Maicero",
+  },
+  {
+    name: "Residia",
+    tag: "Producto propio XDEVELOP",
+    metric: "−60%",
+    blurb: "Accesos, cobranza e incidencias conviven en un mismo producto. Las necesidades de la administración alimentan su evolución.",
+    action: "Conocer Residia",
+  },
 ];
 
 export default function Home() {
@@ -73,62 +89,62 @@ export default function Home() {
           <div className="assembly-stage"><SceneLoader /><div className="assembly-caption"><span className="status-dot" /> Continuidad visible <span>Sistema modular</span></div></div>
           <div className="story-chapters">
         <section className="hero scene-act-1" aria-labelledby="hero-title">
-          <div className="eyebrow"><span className="status-dot" /> Evolución y desarrollo de software</div>
+          <div className="eyebrow" data-reveal><span className="status-dot" /> Evolución y desarrollo de software</div>
           <div className="hero-copy">
-            <h1 id="hero-title">Software para operaciones que <em>no pueden detenerse.</em></h1>
-            <p className="hero-lede">Si tu empresa ya comenzó un sistema con inteligencia artificial, no necesitas desecharlo ni convertirte en experto en tecnología para poder continuar.</p>
-            <div className="hero-actions">
-              <a className="button button-dark" href="#contacto">Revisar mi proyecto <span>↗</span></a>
-              <a className="text-link" href="#equipo">Conocer al equipo <span>↗</span></a>
+            <h1 id="hero-title" data-reveal data-reveal-delay="0.06">Software para operaciones que <em>no pueden detenerse.</em></h1>
+            <p className="hero-lede" data-reveal data-reveal-delay="0.12">Si tu empresa ya comenzó un sistema con inteligencia artificial, no necesitas desecharlo ni convertirte en experto en tecnología para poder continuar.</p>
+            <div className="hero-actions" data-reveal data-reveal-delay="0.18">
+              <a className="button button-dark" href="#contacto">Revisar mi proyecto</a>
+              <a className="text-link" href="#equipo">Conocer al equipo</a>
             </div>
           </div>
-          <div className="hero-note">
-            <span>01—04</span>
+          <div className="hero-note" data-reveal data-reveal-delay="0.24">
+            <span>01 / 04</span>
             <p>Entendemos lo que ya construiste y sumamos el equipo que el proyecto necesita.</p>
           </div>
         </section>
 
         <section className="story-chapter" aria-labelledby="integration-title">
-          <div className="eyebrow"><span className="signal-line" /> 02 — Integrar el equipo</div>
+          <div className="eyebrow"><span className="signal-line" /> 02 · Integrar el equipo</div>
           <h2 id="integration-title">Cada parte necesita a alguien que vea el conjunto.</h2>
           <p>Separamos las responsabilidades, revisamos las conexiones y sumamos el equipo que falta. Lo que ya sirve conserva su lugar.</p>
           <ol className="story-responsibilities"><li>Dirección y arquitectura</li><li>Ingeniería y calidad</li><li>Operación y soporte</li></ol>
-          <a className="text-link" href="#equipo">Conoce las responsabilidades <span>↗</span></a>
+          <a className="text-link" href="#equipo">Conoce las responsabilidades</a>
         </section>
         <section className="story-chapter" aria-labelledby="operation-title">
-          <div className="eyebrow"><span className="status-dot" /> 03 — Sistema operando</div>
+          <div className="eyebrow"><span className="status-dot" /> 03 · Sistema operando</div>
           <h2 id="operation-title">Todo conectado. Listo para continuar.</h2>
           <p>Código bajo tu control, decisiones con responsable y un equipo que conserva el contexto. Una base para seguir construyendo.</p>
-          <a className="button button-dark" href="#casos">Explorar resultados reales <span>↗</span></a>
+          <a className="button button-dark" href="#casos">Explorar resultados reales</a>
         </section>
           </div>
         </div>
         <section className="proof-strip" aria-label="XDEVELOP en números">
-          <div><strong>14</strong><span>años construyendo y mejorando sistemas</span></div>
-          <div><strong>+200</strong><span>proyectos desarrollados</span></div>
-          <div><strong>+15</strong><span>industrias atendidas</span></div>
-          <div><strong>100%</strong><span>del código bajo tu control</span></div>
+          <div data-reveal data-reveal-group="proof"><strong>14</strong><span>años construyendo y mejorando sistemas</span></div>
+          <div data-reveal data-reveal-group="proof"><strong>+200</strong><span>proyectos desarrollados</span></div>
+          <div data-reveal data-reveal-group="proof"><strong>+15</strong><span>industrias atendidas</span></div>
+          <div data-reveal data-reveal-group="proof"><strong>100%</strong><span>del código bajo tu control</span></div>
         </section>
 
         <section className="diagnosis section-dark scene-act-1" id="proyecto" aria-labelledby="diagnosis-title">
-          <div className="section-intro">
+          <div className="section-intro" data-reveal>
             <div className="eyebrow eyebrow-light"><span className="signal-line" /> ¿En qué punto está tu proyecto?</div>
             <h2 id="diagnosis-title">No todos los proyectos necesitan empezar de nuevo.</h2>
           </div>
           <div className="entry-list">
             {entryPoints.map((entry) => (
-              <article className="entry-row" key={entry.number}>
+              <article className="entry-row" key={entry.number} data-reveal data-reveal-group="entries">
                 <span className="entry-number">{entry.number}</span>
                 <h3>{entry.title}</h3>
                 <p>{entry.text}</p>
-                <a href="#contacto" className="arrow-link">{entry.action} <span>↗</span></a>
+                <a href="#contacto" className="arrow-link">{entry.action}</a>
               </article>
             ))}
           </div>
         </section>
 
         <section className="continuity scene-act-2" id="equipo" aria-labelledby="continuity-title">
-          <div className="section-intro split-intro">
+          <div className="section-intro split-intro" data-reveal>
             <div>
               <div className="eyebrow"><span className="status-dot" /> Continuidad de proyecto</div>
               <h2 id="continuity-title">La IA hizo posible empezar. Para continuar, sí necesitas un equipo.</h2>
@@ -137,24 +153,24 @@ export default function Home() {
           </div>
           <div className="role-grid">
             {roles.map(([title, text], index) => (
-              <article className="role" key={title}>
+              <article className="role" key={title} data-reveal data-reveal-group="roles">
                 <span className="role-index">0{index + 1}</span>
                 <h3>{title}</h3>
                 <p>{text}</p>
               </article>
             ))}
           </div>
-          <div className="continuity-statement"><span /> No incorporas personas aisladas. Incorporas un equipo acostumbrado a trabajar junto.</div>
+          <div className="continuity-statement" data-reveal><span /> No incorporas personas aisladas. Incorporas un equipo acostumbrado a trabajar junto.</div>
         </section>
 
         <section className="method section-paper scene-act-2" aria-labelledby="method-title">
-          <div className="method-heading">
+          <div className="method-heading" data-reveal>
             <div className="eyebrow"><span className="status-dot" /> Así damos continuidad a tu proyecto</div>
             <h2 id="method-title">No empezamos programando. Empezamos entendiendo.</h2>
           </div>
           <div className="process-line">
             {["Entendemos", "Priorizamos", "Integramos al equipo", "Damos continuidad"].map((step, index) => (
-              <div className="process-step" key={step}>
+              <div className="process-step" key={step} data-reveal data-reveal-group="steps">
                 <span>0{index + 1}</span>
                 <strong>{step}</strong>
                 <p>{[
@@ -166,49 +182,64 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Link className="button button-outline" href="#contacto">Conocer cómo trabajamos <span>↗</span></Link>
+          <Link className="button button-outline" href="#contacto" data-reveal>Conocer cómo trabajamos</Link>
         </section>
 
         <ClientSection />
 
         <section className="cases section-dark scene-act-3" id="casos" aria-labelledby="cases-title">
-          <div className="section-intro split-intro">
+          <div className="section-intro split-intro" data-reveal>
             <div>
               <div className="eyebrow eyebrow-light"><span className="signal-line" /> Software nuestro ya opera en</div>
               <h2 id="cases-title">Lo que cambió cuando el software entró a la operación.</h2>
             </div>
             <p>Estas cifras provienen de proyectos que están operando actualmente. No presentamos funciones aisladas: presentamos lo que una empresa pudo hacer mejor.</p>
           </div>
+          <div className="product-feature-head" data-reveal>
+            <div className="eyebrow eyebrow-light"><span className="signal-line" /> Productos propios</div>
+          </div>
+          <div className="product-feature">
+            {products.map((product) => (
+              <article className="product-feature-card" key={product.name} data-reveal data-reveal-group="products">
+                <span className="product-feature-tag">{product.tag}</span>
+                <strong className="product-feature-metric">{product.metric}</strong>
+                <h3>{product.name}</h3>
+                <p>{product.blurb}</p>
+                <Link className="arrow-link" href="/es/productos">{product.action}</Link>
+              </article>
+            ))}
+          </div>
           <div className="case-grid">
             {cases.map(([name, category, result, text]) => (
-              <article className="case" key={name}>
+              <article className="case" key={name} data-reveal data-reveal-group="cases">
                 <div className="case-top"><span>{name}</span><span>{category}</span></div>
                 <strong>{result}</strong>
                 <p>{text}</p>
-                <a className="arrow-link" href="#contacto">Ver caso <span>↗</span></a>
+                <a className="arrow-link" href="#contacto">Ver caso</a>
               </article>
             ))}
           </div>
         </section>
 
         <section className="closing scene-act-3" id="contacto" aria-labelledby="closing-title">
-          <div className="closing-mark">×</div>
+          <div className="closing-mark" data-reveal>×</div>
           <div className="closing-copy">
-            <div className="eyebrow"><span className="status-dot" /> El siguiente paso</div>
-            <h2 id="closing-title">Ya construiste una parte. No tienes que terminarla solo.</h2>
-            <p>Muéstranos qué existe, qué quieres lograr y dónde comenzaste a perder claridad. Te diremos qué conviene conservar y qué equipo necesita la siguiente etapa.</p>
-            <div className="hero-actions"><a className="button button-dark" href="mailto:hola@xdevelop.mx">Quiero continuar mi proyecto <span>↗</span></a><a className="text-link" href="https://cal.com" target="_blank" rel="noreferrer">Agendar una conversación <span>↗</span></a></div>
+            <div className="eyebrow" data-reveal><span className="status-dot" /> El siguiente paso</div>
+            <h2 id="closing-title" data-reveal data-reveal-delay="0.08">Ya construiste una parte. No tienes que terminarla solo.</h2>
+            <p data-reveal data-reveal-delay="0.16">Muéstranos qué existe, qué quieres lograr y dónde comenzaste a perder claridad. Te diremos qué conviene conservar y qué equipo necesita la siguiente etapa.</p>
+            <div className="hero-actions" data-reveal data-reveal-delay="0.24"><a className="button button-dark" href="mailto:hola@xdevelop.mx">Quiero continuar mi proyecto</a><a className="text-link" href="https://cal.com" target="_blank" rel="noreferrer">Agendar una conversación</a></div>
           </div>
         </section>
       </main>
 
       <footer className="site-footer" id="nosotros">
-        <div className="footer-brand"><Image src="/brand/xdevelop-logo-black.png" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
-        <div className="footer-column"><span className="footer-label">Contacto</span><a href="mailto:hola@xdevelop.mx">hola@xdevelop.mx</a><a href="tel:+525528482194">55 2848 2194</a></div>
-        <div className="footer-column"><span className="footer-label">Oficinas</span><address>Av. Marina Nacional 385, Piso 3<br />Verónica Anzures, Miguel Hidalgo<br />CDMX, México</address></div>
-        <div className="footer-column"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a></div>
+        <div className="footer-brand" data-reveal><Image src="/brand/xdevelop-logo-black.png" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
+        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Contacto</span><a href="mailto:hola@xdevelop.mx">hola@xdevelop.mx</a><a href="tel:+525528482194">55 2848 2194</a></div>
+        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Oficinas</span><address>Av. Marina Nacional 385, Piso 3<br />Verónica Anzures, Miguel Hidalgo<br />CDMX, México</address></div>
+        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a></div>
         <div className="footer-bottom"><span>© 2026 XDEVELOP</span><span>Hecho para continuar.</span></div>
       </footer>
+      <MotionReveal />
     </div>
   );
 }
