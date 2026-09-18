@@ -3,6 +3,7 @@ import { Onest } from "next/font/google";
 import "./globals.css";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { ThemeProvider } from "@/components/theme-provider";
 import { getPageContent } from "@/content/site";
 import { siteUrl } from "@/lib/seo";
 
@@ -40,10 +41,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${onest.variable} antialiased`}>
+    <html lang="es" className={`${onest.variable} antialiased`} suppressHydrationWarning>
       <body>
-        <SmoothScroll>{children}</SmoothScroll>
-        <AnalyticsProvider />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SmoothScroll>{children}</SmoothScroll>
+          <AnalyticsProvider />
+        </ThemeProvider>
       </body>
     </html>
   );

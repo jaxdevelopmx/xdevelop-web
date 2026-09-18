@@ -5,6 +5,8 @@ import { MotionReveal } from "@/components/motion-reveal";
 import { SceneLoader } from "@/components/scene-loader";
 import { getSchedulingHref, isExternalScheduling, organization } from "@/content/organization";
 import { analyticsEvents } from "@/lib/analytics";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const schedulingHref = getSchedulingHref("es");
 const schedulingAttributes = isExternalScheduling()
@@ -76,7 +78,8 @@ export default function Home() {
     <div className="home-shell">
       <header className="site-header">
         <Link href="#inicio" className="brand" aria-label="XDEVELOP, inicio">
-          <Image src="/brand/xdevelop-logo-black.png" alt="XDEVELOP software" width={196} height={52} priority />
+          <Image src="/brand/xdevelop-logo-black.png" className="theme-logo-light" alt="XDEVELOP software" width={196} height={52} priority />
+          <Image src="/brand/xdevelop-logo-white.png" className="theme-logo-dark" alt="XDEVELOP software" width={196} height={52} priority />
         </Link>
         <nav className="desktop-nav" aria-label="Navegación principal">
           <a href="#proyecto">Qué hacemos</a>
@@ -86,57 +89,64 @@ export default function Home() {
           <a href="#nosotros">Nosotros</a>
         </nav>
         <div className="header-actions">
-          <a
-            className="button button-dark button-small"
-            href="#contacto"
+          <ThemeToggle />
+          <Button
+            render={<Link href="#contacto" />}
+            nativeButton={false}
+            variant="dark"
+            size="cta-sm"
             data-analytics-event={analyticsEvents.scheduleOpen}
             data-analytics-source="header"
           >
             Revisar mi proyecto
-          </a>
+          </Button>
         </div>
       </header>
 
       <main id="inicio">
         <div id="continuity-story" className="continuity-story">
-          <div className="assembly-stage"><SceneLoader /><div className="assembly-caption"><span className="status-dot" /> Continuidad visible <span>Sistema modular</span></div></div>
+          <div className="assembly-stage"><SceneLoader /><div className="assembly-caption"></div></div>
           <div className="story-chapters">
-        <section className="hero scene-act-1" aria-labelledby="hero-title">
-          <div className="eyebrow" data-reveal><span className="status-dot" /> Evolución y desarrollo de software</div>
-          <div className="hero-copy">
-            <h1 id="hero-title" data-reveal data-reveal-delay="0.06">Software para operaciones que <em>no pueden detenerse.</em></h1>
-            <p className="hero-lede" data-reveal data-reveal-delay="0.12">Si tu empresa ya comenzó un sistema con inteligencia artificial, no necesitas desecharlo ni convertirte en experto en tecnología para poder continuar.</p>
-            <div className="hero-actions" data-reveal data-reveal-delay="0.18">
-              <a
-                className="button button-dark"
-                href="#contacto"
-                data-analytics-event={analyticsEvents.scheduleOpen}
-                data-analytics-source="hero"
-              >
-                Revisar mi proyecto
-              </a>
-              <a className="text-link" href="#equipo">Conocer al equipo</a>
-            </div>
-          </div>
-          <div className="hero-note" data-reveal data-reveal-delay="0.24">
-            <span>01 / 04</span>
-            <p>Entendemos lo que ya construiste y sumamos el equipo que el proyecto necesita.</p>
-          </div>
-        </section>
+            <section className="hero scene-act-1" aria-labelledby="hero-title">
+              <div className="eyebrow" data-reveal><span className="status-dot" /> Evolución y desarrollo de software</div>
+              <div className="hero-copy">
+                <h1 id="hero-title" data-reveal data-reveal-delay="0.06">Software para operaciones que <em>no pueden detenerse.</em></h1>
+                <p className="hero-lede" data-reveal data-reveal-delay="0.12">Si tu empresa ya comenzó un sistema con inteligencia artificial, no necesitas desecharlo ni convertirte en experto en tecnología para poder continuar.</p>
+                <div className="hero-actions" data-reveal data-reveal-delay="0.18">
+                  <Button
+                    render={<Link href="#contacto" />}
+                    nativeButton={false}
+                    variant="dark"
+                    size="cta"
+                    data-analytics-event={analyticsEvents.scheduleOpen}
+                    data-analytics-source="hero"
+                  >
+                    Revisar mi proyecto
+                  </Button>
+                  <a className="text-link" href="#equipo">Conocer al equipo</a>
+                </div>
+              </div>
+              <div className="hero-note" data-reveal data-reveal-delay="0.24">
+                <span>01 / 04</span>
+                <p>Entendemos lo que ya construiste y sumamos el equipo que el proyecto necesita.</p>
+              </div>
+            </section>
 
-        <section className="story-chapter" aria-labelledby="integration-title">
-          <div className="eyebrow"><span className="signal-line" /> 02 · Integrar el equipo</div>
-          <h2 id="integration-title">Cada parte necesita a alguien que vea el conjunto.</h2>
-          <p>Separamos las responsabilidades, revisamos las conexiones y sumamos el equipo que falta. Lo que ya sirve conserva su lugar.</p>
-          <ol className="story-responsibilities"><li>Dirección y arquitectura</li><li>Ingeniería y calidad</li><li>Operación y soporte</li></ol>
-          <a className="text-link" href="#equipo">Conoce las responsabilidades</a>
-        </section>
-        <section className="story-chapter" aria-labelledby="operation-title">
-          <div className="eyebrow"><span className="status-dot" /> 03 · Sistema operando</div>
-          <h2 id="operation-title">Todo conectado. Listo para continuar.</h2>
-          <p>Código bajo tu control, decisiones con responsable y un equipo que conserva el contexto. Una base para seguir construyendo.</p>
-          <a className="button button-dark" href="#casos">Explorar resultados reales</a>
-        </section>
+            <section className="story-chapter" aria-labelledby="integration-title">
+              <div className="eyebrow"><span className="signal-line" /> 02 · Integrar el equipo</div>
+              <h2 id="integration-title">Cada parte necesita a alguien que vea el conjunto.</h2>
+              <p>Separamos las responsabilidades, revisamos las conexiones y sumamos el equipo que falta. Lo que ya sirve conserva su lugar.</p>
+              <ol className="story-responsibilities"><li>Dirección y arquitectura</li><li>Ingeniería y calidad</li><li>Operación y soporte</li></ol>
+              <a className="text-link" href="#equipo">Conoce las responsabilidades</a>
+            </section>
+            <section className="story-chapter" aria-labelledby="operation-title">
+              <div className="eyebrow"><span className="status-dot" /> 03 · Sistema operando</div>
+              <h2 id="operation-title">Todo conectado. Listo para continuar.</h2>
+              <p>Código bajo tu control, decisiones con responsable y un equipo que conserva el contexto. Una base para seguir construyendo.</p>
+              <Button render={<Link href="#casos" />} nativeButton={false} variant="dark" size="cta" className="mt-8">
+                Explorar resultados reales
+              </Button>
+            </section>
           </div>
         </div>
         <section className="proof-strip" aria-label="XDEVELOP en números">
@@ -209,7 +219,16 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Link className="button button-outline" href="#contacto" data-reveal>Conocer cómo trabajamos</Link>
+          <Button
+            render={<Link href="#contacto" />}
+            nativeButton={false}
+            variant="outline-dark"
+            size="cta"
+            className="mt-14 max-sm:mt-[35px]"
+            data-reveal
+          >
+            Conocer cómo trabajamos
+          </Button>
         </section>
 
         <ClientSection />
@@ -256,12 +275,14 @@ export default function Home() {
             <h2 id="closing-title" data-reveal data-reveal-delay="0.08">Ya construiste una parte. No tienes que terminarla solo.</h2>
             <p data-reveal data-reveal-delay="0.16">Muéstranos qué existe, qué quieres lograr y dónde comenzaste a perder claridad. Te diremos qué conviene conservar y qué equipo necesita la siguiente etapa.</p>
             <div className="hero-actions" data-reveal data-reveal-delay="0.24">
-              <a
-                className="button button-dark"
-                href={`mailto:${organization.email}`}
+              <Button
+                render={<a href={`mailto:${organization.email}`} />}
+                nativeButton={false}
+                variant="dark"
+                size="cta"
               >
                 Quiero continuar mi proyecto
-              </a>
+              </Button>
               <a
                 className="text-link"
                 href={schedulingHref}
@@ -287,7 +308,7 @@ export default function Home() {
       </main>
 
       <footer className="site-footer" id="nosotros">
-        <div className="footer-brand" data-reveal><Image src="/brand/xdevelop-logo-black.png" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
+        <div className="footer-brand" data-reveal><Image src="/brand/xdevelop-logo-black.png" className="theme-logo-light" alt="XDEVELOP" width={196} height={52} /><Image src="/brand/xdevelop-logo-white.png" className="theme-logo-dark" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
         <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Contacto</span><a href={`mailto:${organization.email}`}>{organization.email}</a><a href={`tel:${organization.phone}`}>{organization.phoneDisplay}</a><a href={organization.whatsapp} target="_blank" rel="noreferrer" data-analytics-event={analyticsEvents.whatsappClick} data-analytics-source="footer">WhatsApp</a></div>
         <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Oficinas</span><address>Av. Marina Nacional 385, Piso 3<br />Verónica Anzures, Miguel Hidalgo<br />CDMX, México</address></div>
         <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a><a href="#contacto">Aviso de privacidad</a></div>
