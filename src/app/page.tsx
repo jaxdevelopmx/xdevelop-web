@@ -190,11 +190,33 @@ export default function Home() {
           <div className="continuity-statement" data-reveal><span /> No incorporas personas aisladas. Incorporas un equipo acostumbrado a trabajar junto.</div>
         </section>
 
+        <section className="method section-paper scene-act-2" aria-labelledby="method-title">
+          <div className="method-heading" data-reveal>
+            <div className="eyebrow"><span className="status-dot" /> Así damos continuidad a tu proyecto</div>
+            <h2 id="method-title">No empezamos programando. Empezamos entendiendo.</h2>
+          </div>
+          <div className="process-line">
+            {["Entendemos", "Priorizamos", "Integramos al equipo", "Damos continuidad"].map((step, index) => (
+              <div className="process-step" key={step} data-reveal data-reveal-group="steps">
+                <span>0{index + 1}</span>
+                <strong>{step}</strong>
+                <p>{[
+                  "Revisamos el proyecto y la operación que debe resolver.",
+                  "Separamos lo urgente de lo importante y definimos qué conviene conservar.",
+                  "Incorporamos los roles que necesita la siguiente etapa.",
+                  "Construimos, revisamos y comprobamos cada avance.",
+                ][index]}</p>
+              </div>
+            ))}
+          </div>
+          <Link className="button button-outline" href="#contacto" data-reveal>Conocer cómo trabajamos</Link>
+        </section>
+
         <ClientSection />
 
-        <section className="cases" id="casos" aria-labelledby="cases-title">
+        <section className="cases section-dark scene-act-3" id="casos" aria-labelledby="cases-title">
           <div className="section-intro" data-reveal>
-            <div className="eyebrow"><span className="status-dot" /> Experiencia real</div>
+            <div className="eyebrow eyebrow-light"><span className="signal-line" /> Experiencia real</div>
             <h2 id="cases-title">Lo que pasa cuando el software funciona en la operación diaria.</h2>
           </div>
           <div className="product-feature">

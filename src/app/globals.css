@@ -620,6 +620,11 @@ h1 em {
 .product-feature {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  margin-top: 64px;
+}
+
+.product-feature-head + .product-feature {
+  margin-top: 0;
 }
 
 .product-feature-card {
@@ -1068,6 +1073,7 @@ h1 em {
 
   .product-feature {
     grid-template-columns: 1fr;
+    margin-top: 48px;
   }
 
   .product-feature-card,
