@@ -40,16 +40,21 @@ La base Next.js está creada y el build de producción funciona. La home inicial
 
 ## SEO y analítica
 
-- [ ] Crear `sitemap.ts`.
-- [ ] Crear `robots.ts`.
-- [ ] Añadir JSON-LD localizado para organización, servicios y casos cuando corresponda.
-- [ ] Añadir canonical y `hreflang` para `/es` y `/en`.
-- [ ] Crear redirects desde las URLs actuales de `xdevelop.mx`.
-- [ ] Crear página 404 editorial.
-- [ ] Integrar consentimiento de cookies.
-- [ ] Integrar GA4 después del consentimiento.
-- [ ] Integrar Vercel Analytics.
-- [ ] Medir idioma, servicios, casos, agenda, reservas, WhatsApp y errores de carga 3D.
+- [x] Crear `sitemap.ts`.
+- [x] Crear `robots.ts`.
+- [x] Añadir JSON-LD localizado para organización, servicios y casos cuando corresponda.
+- [x] Añadir canonical y `hreflang` para `/es` y `/en`.
+- [x] Crear redirects desde las URLs actuales de `xdevelop.mx`.
+- [x] Crear página 404 editorial.
+- [x] Integrar consentimiento de cookies.
+- [x] Integrar GA4 después del consentimiento.
+- [x] Integrar Vercel Analytics.
+- [x] Medir idioma, servicios, casos, agenda, reservas, WhatsApp y errores de carga 3D.
+- [ ] Configurar `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_SITE_URL` y `NEXT_PUBLIC_SCHEDULING_URL` en Vercel.
+- [ ] Redactar el contenido real del aviso de privacidad y de la política de cookies.
+- [ ] Confirmar que 55 2848 2194 es el número de WhatsApp publicable.
+- [ ] Mover el layout raíz bajo `[locale]` para que `<html lang>` cambie en `/en`.
+- [ ] Reemplazar el subdominio de agenda: `asesoria.xdevelop.mx` tiene el certificado TLS caducado.
 
 ## Calidad y producción
 
@@ -87,3 +92,17 @@ La base Next.js está creada y el build de producción funciona. La home inicial
 - [ ] Probar reduced motion y pérdida real de WebGL en dispositivos físicos.
 
 Este avance corresponde a la home `/`. Las homes localizadas, la constelación de clientes, el pulso operativo, CMS y agenda conservan sus pendientes anteriores.
+
+## Avance SEO y analítica — 17 septiembre 2026
+
+- [x] Centralizar URL del sitio, rutas localizadas y `hreflang` en `src/lib/seo.ts`.
+- [x] Generar `sitemap.xml` con 28 URLs y alternates por idioma más `x-default`.
+- [x] Generar `robots.txt` con `Sitemap`, `Host` y bloqueo completo en despliegues que no son producción.
+- [x] Emitir canonical, `hreflang`, Open Graph y JSON-LD en `/`, `/es` y `/en`.
+- [x] Construir el grafo JSON-LD desde `src/content/experience.ts`: organización, catálogo de servicios, casos, FAQ y breadcrumbs.
+- [x] Redirigir con 308 las 16 URLs vigentes de `xdevelop.mx`.
+- [x] Devolver 404 real en rutas desconocidas bajo `/es` y `/en`, con página editorial.
+- [x] Publicar el aviso de privacidad como ruta localizada.
+- [x] Pedir consentimiento antes de cargar GA4 y permitir aceptar, rechazar y volver a decidir.
+- [x] Medir idioma, servicios, casos, agenda, reservas de Cal.com, WhatsApp y errores de la escena 3D.
+- [x] Comprobar lint, TypeScript, build y respuestas reales con el servidor de producción.
