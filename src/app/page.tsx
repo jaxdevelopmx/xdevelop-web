@@ -5,7 +5,6 @@ import { MotionReveal } from "@/components/motion-reveal";
 import { SceneLoader } from "@/components/scene-loader";
 import { getSchedulingHref, isExternalScheduling, organization } from "@/content/organization";
 import { analyticsEvents } from "@/lib/analytics";
-import { localizedPath } from "@/lib/seo";
 
 const schedulingHref = getSchedulingHref("es");
 const schedulingAttributes = isExternalScheduling()
@@ -205,7 +204,7 @@ export default function Home() {
                 <strong className="product-feature-metric">{product.metric}</strong>
                 <h3>{product.name}</h3>
                 <p>{product.blurb}</p>
-                <Link className="arrow-link" href="/es/productos">{product.action}</Link>
+                <Link className="arrow-link" href="#casos">{product.action}</Link>
               </article>
             ))}
           </div>
@@ -269,7 +268,7 @@ export default function Home() {
         <div className="footer-brand" data-reveal><Image src="/brand/xdevelop-logo-black.png" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
         <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Contacto</span><a href={`mailto:${organization.email}`}>{organization.email}</a><a href={`tel:${organization.phone}`}>{organization.phoneDisplay}</a><a href={organization.whatsapp} target="_blank" rel="noreferrer" data-analytics-event={analyticsEvents.whatsappClick} data-analytics-source="footer">WhatsApp</a></div>
         <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Oficinas</span><address>Av. Marina Nacional 385, Piso 3<br />Verónica Anzures, Miguel Hidalgo<br />CDMX, México</address></div>
-        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a><Link href={localizedPath("es", "aviso-de-privacidad")}>Aviso de privacidad</Link></div>
+        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a><a href="#contacto">Aviso de privacidad</a></div>
         <div className="footer-bottom"><span>© 2026 XDEVELOP</span><span>Hecho para continuar.</span></div>
       </footer>
       <MotionReveal />

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { localizedPath } from "@/lib/seo";
 
 export default function NotFound() {
   return (
@@ -14,7 +13,7 @@ export default function NotFound() {
           es el camino que sigue llevando a algo.
         </p>
         <div className="not-found-links">
-          <Link href={localizedPath("es")}>
+          <Link href="/">
             Inicio
           </Link>
         </div>
