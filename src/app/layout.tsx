@@ -9,7 +9,7 @@ import { siteUrl } from "@/lib/seo";
 const onest = Onest({
   variable: "--font-onest",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
 });
 
 const [, homeTitle, homeDescription] = getPageContent("es", undefined);
