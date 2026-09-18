@@ -1,15 +1,50 @@
 export function ContinuityFallback() {
   return (
-    <svg className="assembly-fallback" viewBox="0 0 560 560" fill="none" aria-hidden="true">
-      <ellipse cx="280" cy="447" rx="172" ry="34" fill="#101b35" opacity=".06" />
-      {[0, 1, 2, 3].map((level) => <g key={level} transform={`translate(0 ${level * -65})`}>
-        <path d="M109 337 292 271 455 349 273 422Z" fill="#aeb7c6" stroke="#8996aa" />
-        <path d="M109 337v12l164 86 182-74v-12l-182 73Z" fill="#8996aa" />
-        <path d="m131 325 160-58 142 68-161 63Z" fill={level === 2 ? "#2457ff" : "#ffffff"} stroke="#d1d8e2" />
-        <path d="M131 325v20l141 73v-20Z" fill={level === 2 ? "#1945d4" : "#e5eaf0"} />
-        <path d="m272 398 161-63v20l-161 63Z" fill={level === 2 ? "#1740bb" : "#d1d8e2"} />
-        <path d="m149 345 30 15" stroke="#2457ff" strokeWidth="4" />
-      </g>)}
+    <svg className="assembly-fallback" viewBox="0 0 500 500" fill="none" aria-hidden="true">
+      <defs>
+        <radialGradient id="fallbackGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#7F00FD" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="#2457ff" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="bracketGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#dce4ef" />
+        </linearGradient>
+        <linearGradient id="bracketGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#dce4ef" />
+          <stop offset="100%" stopColor="#ffffff" />
+        </linearGradient>
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="16" stdDeviation="16" floodColor="#101b35" floodOpacity="0.12" />
+        </filter>
+      </defs>
+
+      {/* Ambient background aura */}
+      <circle cx="250" cy="250" r="190" fill="url(#fallbackGlow)" />
+      <ellipse cx="250" cy="410" rx="140" ry="24" fill="#101b35" opacity="0.07" />
+
+      {/* Rotated Diamond Group at 45 degrees */}
+      <g transform="translate(250 250) rotate(-45) translate(-250 -250)" filter="url(#softShadow)">
+        {/* Upper-Left Bracket */}
+        <path
+          d="M170 140 H280 A25 25 0 0 1 305 165 V175 A25 25 0 0 1 280 200 H205 A20 20 0 0 0 185 220 V295 A25 25 0 0 1 160 320 H150 A25 25 0 0 1 125 295 V185 A45 45 0 0 1 170 140 Z"
+          fill="url(#bracketGrad1)"
+          stroke="#c7d3e3"
+          strokeWidth="1.5"
+        />
+
+        {/* Lower-Right Bracket */}
+        <path
+          d="M330 360 H220 A25 25 0 0 1 195 335 V325 A25 25 0 0 1 220 300 H295 A20 20 0 0 0 315 280 V205 A25 25 0 0 1 340 180 H350 A25 25 0 0 1 375 205 V315 A45 45 0 0 1 330 360 Z"
+          fill="url(#bracketGrad2)"
+          stroke="#c7d3e3"
+          strokeWidth="1.5"
+        />
+
+        {/* Brand Accent Glowing Tracks */}
+        <circle cx="295" cy="182" r="4" fill="#2457ff" />
+        <circle cx="205" cy="318" r="4" fill="#7F00FD" />
+      </g>
     </svg>
   );
 }
