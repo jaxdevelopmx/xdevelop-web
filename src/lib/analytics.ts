@@ -14,24 +14,6 @@ export const analyticsEvents = {
 export type AnalyticsEvent = (typeof analyticsEvents)[keyof typeof analyticsEvents];
 export type AnalyticsParams = Record<string, string | number | boolean>;
 
-declare global {
-  interface Window {
-    dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+export function setAnalyticsEnabled(_enabled: boolean) {}
 
-export const gaMeasurementId = process.env.NEXT_PUBLIC_GA_ID ?? "";
-
-let analyticsEnabled = false;
-
-export function setAnalyticsEnabled(enabled: boolean) {
-  analyticsEnabled = enabled;
-  if (typeof window === "undefined" || !gaMeasurementId) return;
-  (window as unknown as Record<string, boolean>)[`ga-disable-${gaMeasurementId}`] = !enabled;
-}
-
-export function trackEvent(event: string, params: AnalyticsParams = {}) {
-  if (!analyticsEnabled || typeof window === "undefined" || typeof window.gtag !== "function") return;
-  window.gtag("event", event, params);
-}
+export function trackEvent(_event: string, _params: AnalyticsParams = {}) {}

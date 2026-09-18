@@ -14,6 +14,7 @@ export interface ClientItem {
   status: string;
   mono: string;
   color: string;
+  inverted?: boolean;
   metric?: string;
   description: string;
 }
@@ -43,6 +44,7 @@ const clientsData: ClientItem[] = [
     metric: "20 min",
     mono: "/media/generated/client-logos-twba-logo-blanco-twba-320-mono.webp",
     color: "/media/generated/client-logos-twba-logo-blanco-twba-320.webp",
+    inverted: true,
     description: "Automatización de reportes regulatorios REPSE con trazabilidad completa de contratos y nóminas.",
   },
   {
@@ -238,6 +240,7 @@ const clientsData: ClientItem[] = [
     status: "Operación activa",
     mono: "/media/generated/client-logos-certa-logo-certa-320-mono.webp",
     color: "/media/generated/client-logos-certa-logo-certa-320.webp",
+    inverted: true,
     description: "Plataformas a medida para gestión interna y entrega de diagnósticos corporativos.",
   },
   {
@@ -297,9 +300,6 @@ export function ClientSection() {
   return (
     <section className="client-constellation-section" id="clientes" aria-labelledby="clients-constellation-title">
       <div className="client-constellation-header">
-        <div className="eyebrow">
-          <span className="status-dot" /> Constelación de Clientes
-        </div>
         <div className="client-header-flex">
           <div>
             <h2 id="clients-constellation-title">
@@ -351,7 +351,8 @@ export function ClientSection() {
                 type="button"
                 key={client.id}
                 role="listitem"
-                className={`client-matrix-cell ${isSelected ? "selected" : ""} ${isHighlighted ? "active" : ""}`}
+                title={client.name}
+                className={`client-matrix-cell ${isHighlighted ? "active" : ""} ${client.inverted ? "inverted" : ""}`}
                 onMouseEnter={() => setHoveredClient(client.id)}
                 onMouseLeave={() => setHoveredClient(null)}
                 onClick={() => {
@@ -368,13 +369,9 @@ export function ClientSection() {
                     alt={client.name}
                     width={130}
                     height={44}
-                    className="cell-logo-img"
+                    className="cell-logo"
                     style={{ objectFit: "contain", height: "40px", width: "auto" }}
                   />
-                </div>
-                <div className="cell-bottom-meta">
-                  <span className="cell-name">{client.name}</span>
-                  <span className="cell-badge">{client.sectorLabel}</span>
                 </div>
               </button>
             );
@@ -419,7 +416,7 @@ export function ClientSection() {
               data-analytics-event={analyticsEvents.scheduleOpen}
               data-analytics-source="client-inspector"
             >
-              Ver cómo intervenir mi proyecto <span>↗</span>
+              Ver cómo intervenir mi proyecto
             </a>
           </div>
         </aside>

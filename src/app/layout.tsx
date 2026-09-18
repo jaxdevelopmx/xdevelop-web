@@ -4,7 +4,7 @@ import "./globals.css";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { getPageContent } from "@/content/site";
-import { buildAlternates, buildOpenGraph, siteUrl } from "@/lib/seo";
+import { siteUrl } from "@/lib/seo";
 
 const onest = Onest({
   variable: "--font-onest",
@@ -17,13 +17,20 @@ const [, homeTitle, homeDescription] = getPageContent("es", undefined);
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "XDEVELOP — Software para operaciones que no pueden detenerse",
-    template: "%s — XDEVELOP",
+    default: "XDEVELOP · Software para operaciones que no pueden detenerse",
+    template: "%s · XDEVELOP",
   },
   description:
     "Revisamos, continuamos, modernizamos y operamos software que ya importa para tu empresa.",
-  alternates: buildAlternates("es"),
-  openGraph: buildOpenGraph("es", undefined, homeTitle, homeDescription),
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    title: homeTitle,
+    description: homeDescription,
+    url: "/",
+    siteName: "XDEVELOP",
+    locale: "es_MX",
+  },
   robots: {
     index: true,
     follow: true,
