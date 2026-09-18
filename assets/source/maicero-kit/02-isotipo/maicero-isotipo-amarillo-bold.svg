@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="11 9 82 82" width="512" height="512">
+<g fill="none" stroke="#FFD23F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M 38,68 C 22,68 14,52 22,38 C 30,24 42,22 48,32 C 52,40 50,52 44,60 C 42,64 40,66 38,68 Z"/>
+  
+  <path d="M 40,68 C 32,52 52,22 80,16 C 88,14 92,20 88,28 C 78,52 60,72 48,72 C 42,72 41,70 40,68 Z"/>
+</g>
+<rect x="69.2" y="21.2" width="5.6" height="5.6" transform="rotate(45 72 24)" fill="#FFD23F"/><rect x="61.2" y="29.2" width="5.6" height="5.6" transform="rotate(45 64 32)" fill="#FFD23F"/><rect x="75.2" y="29.2" width="5.6" height="5.6" transform="rotate(45 78 32)" fill="#FFD23F"/><rect x="55.2" y="39.2" width="5.6" height="5.6" transform="rotate(45 58 42)" fill="#FFD23F"/><rect x="65.2" y="39.2" width="5.6" height="5.6" transform="rotate(45 68 42)" fill="#FFD23F"/><rect x="75.2" y="37.2" width="5.6" height="5.6" transform="rotate(45 78 40)" fill="#FFD23F"/><rect x="53.2" y="49.2" width="5.6" height="5.6" transform="rotate(45 56 52)" fill="#FFD23F"/><rect x="63.2" y="49.2" width="5.6" height="5.6" transform="rotate(45 66 52)" fill="#FFD23F"/>
+</svg>
