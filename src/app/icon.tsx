@@ -27,8 +27,8 @@ export default function Icon() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={isotypeBase64}
-          width="20"
-          height="20"
+          width={20}
+          height={20}
           style={{ objectFit: "contain" }}
         />
       </div>

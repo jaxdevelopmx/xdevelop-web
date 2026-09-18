@@ -1,8 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SceneLoader } from "@/components/scene-loader";
 import { ClientSection } from "@/components/client-section";
 import { MotionReveal } from "@/components/motion-reveal";
+import { SceneLoader } from "@/components/scene-loader";
+import { getSchedulingHref, isExternalScheduling, organization } from "@/content/organization";
+import { analyticsEvents } from "@/lib/analytics";
+import { localizedPath } from "@/lib/seo";
+
+const schedulingHref = getSchedulingHref("es");
+const schedulingAttributes = isExternalScheduling()
+  ? { target: "_blank" as const, rel: "noreferrer" }
+  : {};
 
 const entryPoints = [
   {
@@ -79,8 +87,14 @@ export default function Home() {
           <a href="#nosotros">Nosotros</a>
         </nav>
         <div className="header-actions">
-          <Link className="language" href="/en" aria-label="Read in English">ES <span>/</span> EN</Link>
-          <a className="button button-dark button-small" href="#contacto">Revisar mi proyecto</a>
+          <a
+            className="button button-dark button-small"
+            href="#contacto"
+            data-analytics-event={analyticsEvents.scheduleOpen}
+            data-analytics-source="header"
+          >
+            Revisar mi proyecto
+          </a>
         </div>
       </header>
 
@@ -94,7 +108,14 @@ export default function Home() {
             <h1 id="hero-title" data-reveal data-reveal-delay="0.06">Software para operaciones que <em>no pueden detenerse.</em></h1>
             <p className="hero-lede" data-reveal data-reveal-delay="0.12">Si tu empresa ya comenzó un sistema con inteligencia artificial, no necesitas desecharlo ni convertirte en experto en tecnología para poder continuar.</p>
             <div className="hero-actions" data-reveal data-reveal-delay="0.18">
-              <a className="button button-dark" href="#contacto">Revisar mi proyecto</a>
+              <a
+                className="button button-dark"
+                href="#contacto"
+                data-analytics-event={analyticsEvents.scheduleOpen}
+                data-analytics-source="hero"
+              >
+                Revisar mi proyecto
+              </a>
               <a className="text-link" href="#equipo">Conocer al equipo</a>
             </div>
           </div>
@@ -137,7 +158,14 @@ export default function Home() {
                 <span className="entry-number">{entry.number}</span>
                 <h3>{entry.title}</h3>
                 <p>{entry.text}</p>
-                <a href="#contacto" className="arrow-link">{entry.action}</a>
+                <a
+                  href="#contacto"
+                  className="arrow-link"
+                  data-analytics-event={analyticsEvents.scheduleOpen}
+                  data-analytics-source={`diagnosis-${entry.number}`}
+                >
+                  {entry.action}
+                </a>
               </article>
             ))}
           </div>
@@ -163,40 +191,12 @@ export default function Home() {
           <div className="continuity-statement" data-reveal><span /> No incorporas personas aisladas. Incorporas un equipo acostumbrado a trabajar junto.</div>
         </section>
 
-        <section className="method section-paper scene-act-2" aria-labelledby="method-title">
-          <div className="method-heading" data-reveal>
-            <div className="eyebrow"><span className="status-dot" /> Así damos continuidad a tu proyecto</div>
-            <h2 id="method-title">No empezamos programando. Empezamos entendiendo.</h2>
-          </div>
-          <div className="process-line">
-            {["Entendemos", "Priorizamos", "Integramos al equipo", "Damos continuidad"].map((step, index) => (
-              <div className="process-step" key={step} data-reveal data-reveal-group="steps">
-                <span>0{index + 1}</span>
-                <strong>{step}</strong>
-                <p>{[
-                  "Revisamos el proyecto y la operación que debe resolver.",
-                  "Separamos lo urgente de lo importante y definimos qué conviene conservar.",
-                  "Incorporamos los roles que necesita la siguiente etapa.",
-                  "Construimos, revisamos y comprobamos cada avance.",
-                ][index]}</p>
-              </div>
-            ))}
-          </div>
-          <Link className="button button-outline" href="#contacto" data-reveal>Conocer cómo trabajamos</Link>
-        </section>
-
         <ClientSection />
 
-        <section className="cases section-dark scene-act-3" id="casos" aria-labelledby="cases-title">
-          <div className="section-intro split-intro" data-reveal>
-            <div>
-              <div className="eyebrow eyebrow-light"><span className="signal-line" /> Software nuestro ya opera en</div>
-              <h2 id="cases-title">Lo que cambió cuando el software entró a la operación.</h2>
-            </div>
-            <p>Estas cifras provienen de proyectos que están operando actualmente. No presentamos funciones aisladas: presentamos lo que una empresa pudo hacer mejor.</p>
-          </div>
-          <div className="product-feature-head" data-reveal>
-            <div className="eyebrow eyebrow-light"><span className="signal-line" /> Productos propios</div>
+        <section className="cases" id="casos" aria-labelledby="cases-title">
+          <div className="section-intro" data-reveal>
+            <div className="eyebrow"><span className="status-dot" /> Experiencia real</div>
+            <h2 id="cases-title">Lo que pasa cuando el software funciona en la operación diaria.</h2>
           </div>
           <div className="product-feature">
             {products.map((product) => (
@@ -215,7 +215,14 @@ export default function Home() {
                 <div className="case-top"><span>{name}</span><span>{category}</span></div>
                 <strong>{result}</strong>
                 <p>{text}</p>
-                <a className="arrow-link" href="#contacto">Ver caso</a>
+                <a
+                  className="arrow-link"
+                  href="#contacto"
+                  data-analytics-event={analyticsEvents.caseSelect}
+                  data-analytics-case={name}
+                >
+                  Ver caso
+                </a>
               </article>
             ))}
           </div>
@@ -227,16 +234,42 @@ export default function Home() {
             <div className="eyebrow" data-reveal><span className="status-dot" /> El siguiente paso</div>
             <h2 id="closing-title" data-reveal data-reveal-delay="0.08">Ya construiste una parte. No tienes que terminarla solo.</h2>
             <p data-reveal data-reveal-delay="0.16">Muéstranos qué existe, qué quieres lograr y dónde comenzaste a perder claridad. Te diremos qué conviene conservar y qué equipo necesita la siguiente etapa.</p>
-            <div className="hero-actions" data-reveal data-reveal-delay="0.24"><a className="button button-dark" href="mailto:hola@xdevelop.mx">Quiero continuar mi proyecto</a><a className="text-link" href="https://cal.com" target="_blank" rel="noreferrer">Agendar una conversación</a></div>
+            <div className="hero-actions" data-reveal data-reveal-delay="0.24">
+              <a
+                className="button button-dark"
+                href={`mailto:${organization.email}`}
+              >
+                Quiero continuar mi proyecto
+              </a>
+              <a
+                className="text-link"
+                href={schedulingHref}
+                data-analytics-event={analyticsEvents.scheduleOpen}
+                data-analytics-source="closing"
+                {...schedulingAttributes}
+              >
+                Agendar una conversación
+              </a>
+              <a
+                className="text-link"
+                href={organization.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                data-analytics-event={analyticsEvents.whatsappClick}
+                data-analytics-source="closing"
+              >
+                Escribir por WhatsApp
+              </a>
+            </div>
           </div>
         </section>
       </main>
 
       <footer className="site-footer" id="nosotros">
         <div className="footer-brand" data-reveal><Image src="/brand/xdevelop-logo-black.png" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
-        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Contacto</span><a href="mailto:hola@xdevelop.mx">hola@xdevelop.mx</a><a href="tel:+525528482194">55 2848 2194</a></div>
+        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Contacto</span><a href={`mailto:${organization.email}`}>{organization.email}</a><a href={`tel:${organization.phone}`}>{organization.phoneDisplay}</a><a href={organization.whatsapp} target="_blank" rel="noreferrer" data-analytics-event={analyticsEvents.whatsappClick} data-analytics-source="footer">WhatsApp</a></div>
         <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Oficinas</span><address>Av. Marina Nacional 385, Piso 3<br />Verónica Anzures, Miguel Hidalgo<br />CDMX, México</address></div>
-        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a></div>
+        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a><Link href={localizedPath("es", "aviso-de-privacidad")}>Aviso de privacidad</Link></div>
         <div className="footer-bottom"><span>© 2026 XDEVELOP</span><span>Hecho para continuar.</span></div>
       </footer>
       <MotionReveal />

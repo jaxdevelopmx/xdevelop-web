@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useMemo } from "react";
+import { analyticsEvents, trackEvent } from "@/lib/analytics";
 
 export interface ClientItem {
   id: string;
@@ -354,7 +355,10 @@ export function ClientSection() {
                 className={`client-matrix-cell ${isHighlighted ? "active" : ""} ${client.inverted ? "inverted" : ""}`}
                 onMouseEnter={() => setHoveredClient(client.id)}
                 onMouseLeave={() => setHoveredClient(null)}
-                onClick={() => setSelectedClient(client)}
+                onClick={() => {
+                  setSelectedClient(client);
+                  trackEvent(analyticsEvents.clientSelect, { client: client.id, sector: client.sector });
+                }}
                 onFocus={() => setSelectedClient(client)}
                 aria-label={`${client.name} — ${client.category}`}
               >
@@ -406,7 +410,12 @@ export function ClientSection() {
           <p className="inspector-detail-text">{activeDisplayClient.description}</p>
 
           <div className="inspector-footer">
-            <a href="#contacto" className="button button-small button-dark">
+            <a
+              href="#contacto"
+              className="button button-small button-dark"
+              data-analytics-event={analyticsEvents.scheduleOpen}
+              data-analytics-source="client-inspector"
+            >
               Ver cómo intervenir mi proyecto
             </a>
           </div>

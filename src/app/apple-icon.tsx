@@ -27,8 +27,8 @@ export default function AppleIcon() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={isotypeBase64}
-          width="116"
-          height="116"
+          width={116}
+          height={116}
           style={{ objectFit: "contain" }}
         />
       </div>
