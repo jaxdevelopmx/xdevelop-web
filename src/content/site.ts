@@ -2,6 +2,26 @@ export type Locale = "es" | "en";
 
 export const locales: Locale[] = ["es", "en"];
 
+export const pageSlugs = [
+  "nosotros",
+  "equipo",
+  "servicios",
+  "revision-de-proyectos",
+  "inteligencia-artificial",
+  "sistemas",
+  "industrias",
+  "metodo-xdevelop",
+  "productos",
+  "casos",
+  "contacto",
+  "preguntas-frecuentes",
+  "aviso-de-privacidad",
+] as const;
+
+export type PageSlug = (typeof pageSlugs)[number];
+
+export type PageContent = readonly [eyebrow: string, title: string, description: string];
+
 const content = {
   es: {
     home: {
@@ -23,6 +43,7 @@ const content = {
       "casos": ["Casos", "Lo que cambió cuando el software entró a la operación.", "Presentamos resultados comprobables, no funciones aisladas."],
       "contacto": ["Contacto", "Muéstranos qué construiste. Y qué debe pasar después.", "No necesitas preparar una presentación ni conocer todos los términos técnicos."],
       "preguntas-frecuentes": ["Preguntas frecuentes", "Lo que probablemente quieres saber antes de mostrarnos tu proyecto.", "No necesitas llegar con todas las respuestas. Muéstranos hasta dónde llegaste y te ayudamos a identificar qué sigue."],
+      "aviso-de-privacidad": ["Aviso de privacidad", "Qué información recibimos y para qué la utilizamos.", "Explicamos qué datos recopilamos cuando nos escribes o navegas este sitio, con qué finalidad los tratamos y cómo puedes ejercer tus derechos."],
     },
   },
   en: {
@@ -45,24 +66,33 @@ const content = {
       "casos": ["Cases", "What changed when software entered the operation.", "We present measurable outcomes, not isolated features."],
       "contacto": ["Contact", "Show us what you built. And what needs to happen next.", "You do not need a presentation or technical vocabulary to start a conversation."],
       "preguntas-frecuentes": ["Frequently asked questions", "What you probably want to know before showing us your project.", "You do not need all the answers. Show us how far you got and we will help identify what comes next."],
+      "aviso-de-privacidad": ["Privacy notice", "What information we receive and what we use it for.", "We explain which data we collect when you write to us or browse this site, why we process it and how you can exercise your rights."],
     },
   },
 } as const;
-
-export function getPageContent(locale: Locale, slug?: string[]) {
-  const dictionary = content[locale];
-  const key = slug?.join("/") || "";
-  return dictionary.pages[key as keyof typeof dictionary.pages] ?? [
-    locale === "es" ? "XDEVELOP" : "XDEVELOP",
-    dictionary.home.title,
-    dictionary.home.intro,
-  ];
-}
 
 export function isLocale(value: string): value is Locale {
   return locales.includes(value as Locale);
 }
 
+export function isPageSlug(value: string): value is PageSlug {
+  return pageSlugs.includes(value as PageSlug);
+}
+
+export function resolveSlug(slug?: string[]): PageSlug | null | undefined {
+  if (!slug?.length) return undefined;
+  if (slug.length > 1 || !isPageSlug(slug[0])) return null;
+  return slug[0];
+}
+
 export function getHomeContent(locale: Locale) {
   return content[locale].home;
+}
+
+export function getPageContent(locale: Locale, slug: PageSlug | undefined): PageContent {
+  if (!slug) {
+    const { eyebrow, title, intro } = content[locale].home;
+    return [eyebrow, title, intro];
+  }
+  return content[locale].pages[slug];
 }

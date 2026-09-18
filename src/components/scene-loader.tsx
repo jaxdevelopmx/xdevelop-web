@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Component, useEffect, useRef, useState, type ReactNode } from "react";
+import { analyticsEvents, trackEvent } from "@/lib/analytics";
 import { ContinuityFallback } from "./continuity-fallback";
 
 const ContinuityScene = dynamic(
@@ -16,6 +17,7 @@ class SceneBoundary extends Component<{ children: ReactNode; onReset?: () => voi
   }
   componentDidCatch(error: Error) {
     console.warn("3D Scene Error handled gracefully:", error);
+    trackEvent(analyticsEvents.sceneError, { reason: "render", message: error.message });
   }
   render() {
     return this.state.failed ? <ContinuityFallback /> : this.props.children;
@@ -63,7 +65,10 @@ export function SceneLoader() {
             key={`${profile.compact}-${profile.reduced}`}
             compact={profile.compact}
             reduced={profile.reduced}
-            onFailure={() => setFailed(true)}
+            onFailure={() => {
+              trackEvent(analyticsEvents.sceneError, { reason: "context-lost" });
+              setFailed(true);
+            }}
             onRestore={() => setFailed(false)}
           />
         ) : (
