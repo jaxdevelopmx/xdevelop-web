@@ -59,7 +59,13 @@ export function NotFoundMark() {
   );
 
   return (
-    <svg ref={markRef} className="not-found-mark" viewBox={brandMarkViewBox} fill="none" aria-hidden="true">
+    <svg
+      ref={markRef}
+      className="h-auto w-[min(100%,460px)] overflow-visible max-[900px]:w-[min(100%,300px)]"
+      viewBox={brandMarkViewBox}
+      fill="none"
+      aria-hidden="true"
+    >
       <g transform={`rotate(45 ${brandMarkCenter} ${brandMarkCenter})`}>
         <g className="nf-bracket nf-bracket-left" transform={`translate(${-bracketGap} 0)`}>
           <path d={brandBracketBottom} fill="var(--ink)" />
@@ -68,7 +74,12 @@ export function NotFoundMark() {
           <path d={brandBracketTop} fill="var(--cobalt)" />
         </g>
       </g>
-      <text className="nf-code" x="276" y="308" textAnchor="middle">
+      <text
+        className="nf-code fill-[var(--ink)] text-[104px] font-semibold tracking-[-0.06em] font-[var(--font-onest),system-ui,sans-serif]"
+        x="276"
+        y="308"
+        textAnchor="middle"
+      >
         404
       </text>
       <line className="nf-signal" x1="220" y1="352" x2="332" y2="352" stroke="var(--xdev-purple-primary)" strokeWidth="4" strokeLinecap="round" />
