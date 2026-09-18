@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { RoundedBox } from "@react-three/drei";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
@@ -12,7 +13,11 @@ gsap.registerPlugin(ScrollTrigger);
 const cobalt = new THREE.Color("#2457ff");
 const brandPurple = new THREE.Color("#7F00FD");
 const signal = new THREE.Color("#ff5a36");
-const neutralWhite = new THREE.Color("#f4f7fb");
+const stableGreen = new THREE.Color("#2ee6a6");
+const aluminum = new THREE.Color("#aeb7c6");
+const traySilver = new THREE.Color("#e0e5ed");
+const ceramicWhite = new THREE.Color("#fafbfd");
+const darkChassis = new THREE.Color("#101b35");
 
 type MotionState = {
   progress: number;
@@ -22,80 +27,190 @@ type MotionState = {
 };
 
 /**
- * Generates the precise 2D shape of the XDEVELOP bracket with rounded corners and rounded end caps.
+ * Creates the exact parametric 2D bracket shape of the XDEVELOP logo isotype.
+ * In unrotated space, the two brackets are centered symmetrically around (0, 0).
+ * Rotated by -45° and 135°, they form the exact diamond emblem with flat cut tips.
  */
-function createLogoBracketShape(height = 2.4, armLength = 0.82, thickness = 0.26, cornerRadius = 0.42) {
+function createBracketShape(
+  halfSize: number,
+  thickness: number,
+  radiusOut: number,
+  armEnd: number
+) {
   const shape = new THREE.Shape();
-  const halfH = height / 2;
-  const r = cornerRadius;
-  const t = thickness;
-  const w = armLength;
-  const capR = t / 2;
+  const xOut = -halfSize;
+  const yOutTop = halfSize;
+  const yOutBot = -halfSize;
+  const xIn = xOut + thickness;
+  const yInTop = yOutTop - thickness;
+  const yInBot = yOutBot + thickness;
+  const radiusIn = Math.max(0.015, radiusOut - thickness);
 
-  // Top arm inner edge
-  shape.moveTo(t + r, halfH - t);
-  // Inner top-left corner
-  shape.absarc(t + r, halfH - t - r, r, Math.PI / 2, Math.PI, false);
-  // Inner vertical spine
-  shape.lineTo(t, -halfH + t + r);
-  // Inner bottom-left corner
-  shape.absarc(t + r, -halfH + t + r, r, Math.PI, (3 * Math.PI) / 2, false);
-  // Bottom arm inner edge
-  shape.lineTo(w - capR, -halfH + t);
-  // Rounded bottom cap
-  shape.absarc(w - capR, -halfH + capR, capR, -Math.PI / 2, Math.PI / 2, false);
-  // Bottom arm outer edge
-  shape.lineTo(r, -halfH);
-  // Outer bottom-left corner
-  shape.absarc(r, -halfH + r, r, (3 * Math.PI) / 2, Math.PI, false);
-  // Outer vertical spine
-  shape.lineTo(0, halfH - r);
-  // Outer top-left corner
-  shape.absarc(r, halfH - r, r, Math.PI, Math.PI / 2, false);
-  // Top arm outer edge
-  shape.lineTo(w - capR, halfH);
-  // Rounded top cap
-  shape.absarc(w - capR, halfH - capR, capR, Math.PI / 2, -Math.PI / 2, false);
+  // Top arm tip (flat perpendicular cut at armEnd)
+  shape.moveTo(armEnd, yOutTop);
+  // Outer top horizontal edge to start of top-left fillet
+  shape.lineTo(xOut + radiusOut, yOutTop);
+  // Outer top-left corner arc (from PI/2 to PI)
+  shape.absarc(xOut + radiusOut, yOutTop - radiusOut, radiusOut, Math.PI / 2, Math.PI, false);
+  // Outer vertical spine down to start of bottom-left fillet
+  shape.lineTo(xOut, yOutBot + radiusOut);
+  // Outer bottom-left corner arc (from PI to 3*PI/2)
+  shape.absarc(xOut + radiusOut, yOutBot + radiusOut, radiusOut, Math.PI, (3 * Math.PI) / 2, false);
+  // Outer bottom horizontal edge to bottom arm tip
+  shape.lineTo(armEnd, yOutBot);
+  // Flat perpendicular cut at bottom arm tip
+  shape.lineTo(armEnd, yInBot);
+  // Inner bottom horizontal edge to start of inner bottom-left fillet
+  shape.lineTo(xIn + radiusIn, yInBot);
+  // Inner bottom-left corner arc (from 3*PI/2 to PI, clockwise)
+  shape.absarc(xIn + radiusIn, yInBot + radiusIn, radiusIn, (3 * Math.PI) / 2, Math.PI, true);
+  // Inner vertical spine up to start of inner top-left fillet
+  shape.lineTo(xIn, yInTop - radiusIn);
+  // Inner top-left corner arc (from PI to PI/2, clockwise)
+  shape.absarc(xIn + radiusIn, yInTop - radiusIn, radiusIn, Math.PI, Math.PI / 2, true);
+  // Inner top horizontal edge to top arm tip
+  shape.lineTo(armEnd, yInTop);
+  // Flat perpendicular cut at top arm tip back to start
+  shape.lineTo(armEnd, yOutTop);
   shape.closePath();
 
   return shape;
 }
 
 /**
- * Inner glowing core path that runs through the spine of each bracket.
+ * An individual modular bracket assembly built with technical layers,
+ * machined aluminum top tray, and an embedded glowing optical light core
+ * that strictly preserves the brand isotype silhouette.
  */
-function createGlowTrackShape(height = 2.1, armLength = 0.68, thickness = 0.08, cornerRadius = 0.36) {
-  const shape = new THREE.Shape();
-  const halfH = height / 2;
-  const r = cornerRadius;
-  const t = thickness;
-  const w = armLength;
-  const capR = t / 2;
+function ModularBracket({
+  bracketGeo,
+  trayGeo,
+  opticalGeo,
+  isLeft,
+  compact,
+  indicatorRef,
+  warnRef,
+}: {
+  bracketGeo: THREE.BufferGeometry;
+  trayGeo: THREE.BufferGeometry;
+  opticalGeo: THREE.BufferGeometry;
+  isLeft: boolean;
+  compact: boolean;
+  indicatorRef: (mat: THREE.MeshStandardMaterial | null) => void;
+  warnRef: (mat: THREE.MeshStandardMaterial | null) => void;
+}) {
+  return (
+    <group>
+      {/* Layer 1: Structural Chassis Base in Dark Titanium Slate */}
+      <mesh geometry={bracketGeo} position={[0, 0, -0.05]} castShadow={!compact} receiveShadow>
+        <meshStandardMaterial color={darkChassis} metalness={0.65} roughness={0.34} />
+      </mesh>
 
-  shape.moveTo(t + r, halfH - t);
-  shape.absarc(t + r, halfH - t - r, r, Math.PI / 2, Math.PI, false);
-  shape.lineTo(t, -halfH + t + r);
-  shape.absarc(t + r, -halfH + t + r, r, Math.PI, (3 * Math.PI) / 2, false);
-  shape.lineTo(w - capR, -halfH + t);
-  shape.absarc(w - capR, -halfH + capR, capR, -Math.PI / 2, Math.PI / 2, false);
-  shape.lineTo(r, -halfH);
-  shape.absarc(r, -halfH + r, r, (3 * Math.PI) / 2, Math.PI, false);
-  shape.lineTo(0, halfH - r);
-  shape.absarc(r, halfH - r, r, Math.PI, Math.PI / 2, false);
-  shape.lineTo(w - capR, halfH);
-  shape.absarc(w - capR, halfH - capR, capR, Math.PI / 2, -Math.PI / 2, false);
-  shape.closePath();
+      {/* Layer 2: Precision Machined Surface Tray in Brushed Aluminum */}
+      <mesh geometry={trayGeo} position={[0, 0, 0.08]} castShadow={!compact} receiveShadow>
+        <meshStandardMaterial color={traySilver} metalness={0.88} roughness={0.2} />
+      </mesh>
 
-  return shape;
+      {/* Layer 3: Embedded Glowing Optical Track (Data Spine) */}
+      <mesh geometry={opticalGeo} position={[0, 0, 0.125]}>
+        <meshStandardMaterial
+          ref={indicatorRef}
+          color={signal}
+          emissive={signal}
+          emissiveIntensity={0.5}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {/* Layer 4: Precision Hardware Details along the bracket */}
+      {/* Titanium hex fasteners countersunk into the face */}
+      {[-0.62, 0, 0.62].map((y, i) => (
+        <mesh key={i} position={[-1.13, y, 0.12]} castShadow={!compact}>
+          <cylinderGeometry args={[0.026, 0.026, 0.04, compact ? 8 : 12]} />
+          <meshStandardMaterial color={aluminum} metalness={0.92} roughness={0.16} />
+        </mesh>
+      ))}
+      <mesh position={[-0.74, 1.13, 0.12]} castShadow={!compact}>
+        <cylinderGeometry args={[0.026, 0.026, 0.04, compact ? 8 : 12]} />
+        <meshStandardMaterial color={aluminum} metalness={0.92} roughness={0.16} />
+      </mesh>
+      <mesh position={[-0.74, -1.13, 0.12]} castShadow={!compact}>
+        <cylinderGeometry args={[0.026, 0.026, 0.04, compact ? 8 : 12]} />
+        <meshStandardMaterial color={aluminum} metalness={0.92} roughness={0.16} />
+      </mesh>
+
+      {/* Flush Ceramic Micro-Module on top arm */}
+      <group position={[-0.9, 1.13, 0.13]}>
+        <RoundedBox args={[0.22, 0.12, 0.05]} radius={0.015} smoothness={compact ? 2 : 3}>
+          <meshStandardMaterial color={isLeft ? ceramicWhite : cobalt} metalness={0.15} roughness={0.25} />
+        </RoundedBox>
+      </group>
+
+      {/* Flush Ceramic Micro-Module on bottom arm */}
+      <group position={[-0.9, -1.13, 0.13]}>
+        <RoundedBox args={[0.22, 0.12, 0.05]} radius={0.015} smoothness={compact ? 2 : 3}>
+          <meshStandardMaterial color={isLeft ? cobalt : ceramicWhite} metalness={0.15} roughness={0.25} />
+        </RoundedBox>
+      </group>
+
+      {/* Risk beacons on arm tips - flicker while disassembled, settle to stable green when docked */}
+      <mesh position={[-1.02, 1.13, 0.15]}>
+        <sphereGeometry args={[0.026, compact ? 6 : 10, compact ? 6 : 10]} />
+        <meshStandardMaterial
+          ref={warnRef}
+          color={signal}
+          emissive={signal}
+          emissiveIntensity={0.35}
+          roughness={0.3}
+        />
+      </mesh>
+      <mesh position={[-1.02, -1.13, 0.15]}>
+        <sphereGeometry args={[0.026, compact ? 6 : 10, compact ? 6 : 10]} />
+        <meshStandardMaterial
+          ref={warnRef}
+          color={signal}
+          emissive={signal}
+          emissiveIntensity={0.35}
+          roughness={0.3}
+        />
+      </mesh>
+
+      {/* Micro heat dissipation fins along outer spine */}
+      {!compact &&
+        [-0.35, -0.2, -0.05, 0.1, 0.25].map((y, i) => (
+          <mesh key={i} position={[-1.24, y, 0.05]}>
+            <boxGeometry args={[0.015, 0.07, 0.09]} />
+            <meshStandardMaterial color="#8997ad" metalness={0.8} roughness={0.3} />
+          </mesh>
+        ))}
+
+      {/* Terminal Alignment Pins facing the gap */}
+      <mesh position={[-0.58, 1.13, 0.08]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.024, 0.024, 0.08, 10]} />
+        <meshStandardMaterial color={aluminum} metalness={0.9} roughness={0.15} />
+      </mesh>
+      <mesh position={[-0.58, -1.13, 0.08]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.024, 0.024, 0.08, 10]} />
+        <meshStandardMaterial color={aluminum} metalness={0.9} roughness={0.15} />
+      </mesh>
+    </group>
+  );
 }
 
-function LogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean }) {
+
+function ModularLogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean }) {
   const root = useRef<THREE.Group>(null);
   const bracket1 = useRef<THREE.Group>(null);
   const bracket2 = useRef<THREE.Group>(null);
-  const glowMat1 = useRef<THREE.MeshStandardMaterial>(null);
-  const glowMat2 = useRef<THREE.MeshStandardMaterial>(null);
-  const connectorGroup = useRef<THREE.Group>(null);
+  const indicator1 = useRef<THREE.MeshStandardMaterial | null>(null);
+  const indicator2 = useRef<THREE.MeshStandardMaterial | null>(null);
+  const connectorRods = useRef<THREE.Group>(null);
+  const warnMats = useRef<THREE.MeshStandardMaterial[]>([]);
+  const bridgeMats = useRef<THREE.MeshStandardMaterial[]>([]);
+  const rimLight = useRef<THREE.PointLight>(null);
+  const dockRef = useRef(0);
+  const prevAssembly = useRef(0);
+  const elapsed = useRef(0);
 
   const state = useRef<MotionState>({
     progress: reduced ? 1 : 0,
@@ -106,30 +221,38 @@ function LogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean
 
   const { invalidate, gl } = useThree();
 
-  // Create memoized bracket geometries
-  const { bracketGeo, glowGeo, pinGeo } = useMemo(() => {
-    const bShape = createLogoBracketShape(2.5, 0.9, 0.28, 0.44);
-    const gShape = createGlowTrackShape(2.2, 0.72, 0.08, 0.38);
-
+  // Create memoized bracket footprint profiles matching the exact logo isotype
+  const { baseBracketGeo, midTrayGeo, opticalTrackGeo } = useMemo(() => {
+    // Base structural chassis
+    const bShape = createBracketShape(1.25, 0.24, 0.46, -0.58);
     const bGeo = new THREE.ExtrudeGeometry(bShape, {
-      depth: 0.38,
+      depth: 0.18,
       bevelEnabled: true,
       bevelSegments: compact ? 2 : 4,
       steps: 1,
-      bevelSize: 0.045,
-      bevelThickness: 0.045,
+      bevelSize: 0.032,
+      bevelThickness: 0.032,
     });
-    bGeo.center();
 
-    const gGeo = new THREE.ExtrudeGeometry(gShape, {
-      depth: 0.04,
+    // Inset brushed aluminum mid-tray
+    const tShape = createBracketShape(1.235, 0.20, 0.44, -0.595);
+    const tGeo = new THREE.ExtrudeGeometry(tShape, {
+      depth: 0.07,
+      bevelEnabled: true,
+      bevelSegments: compact ? 1 : 2,
+      steps: 1,
+      bevelSize: 0.015,
+      bevelThickness: 0.015,
+    });
+
+    // Recessed optical glowing light conduit
+    const oShape = createBracketShape(1.22, 0.06, 0.38, -0.66);
+    const oGeo = new THREE.ExtrudeGeometry(oShape, {
+      depth: 0.03,
       bevelEnabled: false,
     });
-    gGeo.center();
 
-    const pGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.75, compact ? 8 : 16);
-
-    return { bracketGeo: bGeo, glowGeo: gGeo, pinGeo: pGeo };
+    return { baseBracketGeo: bGeo, midTrayGeo: tGeo, opticalTrackGeo: oGeo };
   }, [compact]);
 
   useEffect(() => {
@@ -150,14 +273,14 @@ function LogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;
-            motion.act = p < 0.36 ? 1 : p < 0.72 ? 2 : 3;
+            motion.act = p < 0.38 ? 1 : p < 0.72 ? 2 : 3;
 
             const statusText = document.querySelector(".assembly-status-text");
             if (statusText) {
               if (motion.act === 1) {
                 statusText.textContent = "01 · Entender lo existente (Módulos separados)";
               } else if (motion.act === 2) {
-                statusText.textContent = "02 · Integrar el equipo (Alineación y ensamble)";
+                statusText.textContent = "02 · Integrar el equipo (Alineación y acople)";
               } else {
                 statusText.textContent = "03 · Sistema operando (Emblema XDEVELOP activo)";
               }
@@ -177,8 +300,8 @@ function LogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean
       if (reduced || event.pointerType !== "mouse") return;
       const rect = gl.domElement.getBoundingClientRect();
       gsap.to(motion, {
-        x: ((event.clientX - rect.left) / rect.width - 0.5) * 0.16,
-        y: ((event.clientY - rect.top) / rect.height - 0.5) * 0.12,
+        x: ((event.clientX - rect.left) / rect.width - 0.5) * 0.18,
+        y: ((event.clientY - rect.top) / rect.height - 0.5) * 0.14,
         duration: 0.5,
         overwrite: "auto",
         onUpdate: invalidate,
@@ -215,63 +338,102 @@ function LogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean
     };
   }, [compact, gl, invalidate, reduced]);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     const progress = reduced ? 1 : state.current.progress;
+    const live = !reduced;
+    const t = (elapsed.current += delta);
 
-    // Smoothstep transitions for the 3 Acts:
-    // Act 1 (0.0 -> 0.36): Disassembled, tilted, inspecting parts, warning amber light
-    // Act 2 (0.36 -> 0.75): Converging, aligning, connecting, shifting to cobalt & violet
-    // Act 3 (0.75 -> 1.0): Complete diamond lock, breathing operational pulse
-    const separation = 1 - THREE.MathUtils.smoothstep(progress, 0.25, 0.82);
-    const assembly = THREE.MathUtils.smoothstep(progress, 0.45, 0.9);
+    // Narrative Acts:
+    // Act 1: Exploded / separated diagnostic view
+    // Act 2: Convergence, modular alignment & docking
+    // Act 3: Complete XDEVELOP diamond emblem locked in place with living pulse
+    const separation = 1 - THREE.MathUtils.smoothstep(progress, 0.24, 0.82);
+    const assembly = THREE.MathUtils.smoothstep(progress, 0.42, 0.88);
     const isOperating = assembly > 0.85;
 
-    const time = clock.elapsedTime;
-    const pulse = isOperating ? 0.38 + 0.35 * Math.sin(time * 2.8) : 0.42;
+    const pulse = isOperating ? 0.45 + 0.4 * Math.sin(t * 3.2) : 0.45;
 
-    // Overall root orientation:
-    // When assembled, forms the iconic XDEVELOP diamond (45 degree rotation)
     if (root.current) {
-      // In Act 1, slightly more isometric to show 3D depth and thickness.
-      // In Act 3, settles into a clean, majestic 3D presentation facing the camera with slight pitch.
-      const pitch = 0.18 * separation + state.current.y;
-      const yaw = -0.32 * separation + state.current.x;
-      root.current.rotation.set(pitch, yaw, 0);
+      // Perspective pitch & yaw for 3D inspection in Act 1, settling into clean diamond in Act 3
+      const pitch = 0.12 * separation + state.current.y;
+      const yaw = -0.26 * separation + state.current.x;
+      const idle = live ? Math.sin(t * 0.55) * 0.014 : 0;
+      root.current.rotation.set(pitch, yaw, idle);
+
+      // Idle hover in Act 3 keeps the assembled emblem alive
+      root.current.position.y = live ? Math.sin(t * 1.1) * 0.045 : 0;
+
+      // Controlled scale: comfortably contained at start (Act 1), gently expanding into emblem size in Act 3
+      const currentScale = (compact ? 0.62 : 0.72) + 0.08 * (1 - separation);
+      root.current.scale.setScalar(currentScale);
     }
 
-    // Bracket 1 (Upper-Left bracket of the diamond)
+    // Bracket 1 (Upper-Left bracket of the logo diamond)
+    // Symmetrically separates along normal vector (-0.707, 0.707) with controlled offset so it stays fully in frame
     if (bracket1.current) {
-      const offsetX = -0.42 - separation * 0.95;
-      const offsetY = 0.42 + separation * 0.75;
-      const offsetZ = separation * 0.7;
-      const rotZ = -Math.PI / 4 + separation * 0.25;
-      const rotX = separation * 0.2;
+      const offsetX = -0.34 * separation;
+      const offsetY = 0.34 * separation;
+      const offsetZ = 0.22 * separation;
+      const rotZ = -Math.PI / 4 + separation * 0.12;
+      const rotX = separation * 0.10;
 
       bracket1.current.position.set(offsetX, offsetY, offsetZ);
       bracket1.current.rotation.set(rotX, 0, rotZ);
     }
 
-    // Bracket 2 (Lower-Right bracket of the diamond, symmetrical counterpart)
+    // Bracket 2 (Lower-Right bracket of the logo diamond, 180° counterpart)
+    // Symmetrically separates along (0.707, -0.707)
     if (bracket2.current) {
-      const offsetX = 0.42 + separation * 0.95;
-      const offsetY = -0.42 - separation * 0.75;
-      const offsetZ = -separation * 0.7;
-      const rotZ = (3 * Math.PI) / 4 - separation * 0.25;
-      const rotX = -separation * 0.2;
+      const offsetX = 0.34 * separation;
+      const offsetY = -0.34 * separation;
+      const offsetZ = -0.22 * separation;
+      const rotZ = (3 * Math.PI) / 4 - separation * 0.12;
+      const rotX = -separation * 0.10;
 
       bracket2.current.position.set(offsetX, offsetY, offsetZ);
       bracket2.current.rotation.set(rotX, 0, rotZ);
     }
 
-    // Connector pins bridging the two brackets
-    if (connectorGroup.current) {
-      connectorGroup.current.position.set(0, 0, 0);
-      connectorGroup.current.scale.setScalar(assembly);
+    // Inter-bracket laser coupling bridges inside the two gaps
+    if (connectorRods.current) {
+      connectorRods.current.scale.setScalar(assembly);
     }
 
-    // Dynamic light color evolution:
-    // Signal/Orange (#ff5a36) in Act 1 -> Cobalt (#2457ff) in Act 2 -> Brand Violet (#7F00FD) in Act 3
-    if (glowMat1.current && glowMat2.current) {
+    // Docking flash: single bright burst the moment the assembly locks home
+    const crossed = prevAssembly.current < 0.9 && assembly >= 0.9;
+    prevAssembly.current = assembly;
+    if (live) {
+      dockRef.current = crossed ? 1 : Math.max(0, dockRef.current - 0.045);
+    } else {
+      dockRef.current = 0;
+    }
+
+    // Coupling bridge glow - steady in Act 3, spikes briefly on the docking flash
+    bridgeMats.current.forEach((mat, i) => {
+      const base = i % 2 === 0 ? 0.8 : 1.2;
+      mat.emissiveIntensity = Math.min(3, base + dockRef.current * 1.6);
+    });
+
+    if (rimLight.current) {
+      rimLight.current.intensity = 1.4 + dockRef.current * 2.6;
+    }
+
+    // Risk beacons: fast orange/red flicker while separated, calm green once stable
+    if (warnMats.current.length) {
+      const warnColor = new THREE.Color();
+      warnColor.copy(signal).lerp(stableGreen, assembly);
+      for (let i = 0; i < warnMats.current.length; i++) {
+        const mat = warnMats.current[i];
+        const blink = 0.5 + 0.5 * Math.sin(t * (20 + 4 * (i % 3)) + i * 1.9);
+        mat.emissiveIntensity = 0.15 + separation * (0.35 + 2.2 * blink);
+        mat.color.copy(warnColor);
+        mat.emissive.copy(warnColor);
+      }
+    }
+
+    // Lighting transition:
+    // Diagnostic warning (amber/signal) in Act 1 -> Cobalt in Act 2 -> Brand Violet with pulse in Act 3
+    if (indicator1.current && indicator2.current) {
       const currentColor = new THREE.Color();
       if (assembly < 0.5) {
         currentColor.copy(signal).lerp(cobalt, assembly * 2);
@@ -279,112 +441,135 @@ function LogoAssembly({ compact, reduced }: { compact: boolean; reduced: boolean
         currentColor.copy(cobalt).lerp(brandPurple, (assembly - 0.5) * 2);
       }
 
-      glowMat1.current.color.copy(currentColor);
-      glowMat1.current.emissive.copy(currentColor);
-      glowMat1.current.emissiveIntensity = pulse;
+      indicator1.current.color.copy(currentColor);
+      indicator1.current.emissive.copy(currentColor);
+      indicator1.current.emissiveIntensity = pulse;
 
-      glowMat2.current.color.copy(currentColor);
-      glowMat2.current.emissive.copy(currentColor);
-      glowMat2.current.emissiveIntensity = pulse;
+      indicator2.current.color.copy(currentColor);
+      indicator2.current.emissive.copy(currentColor);
+      indicator2.current.emissiveIntensity = pulse;
     }
 
     if (isOperating && !reduced) {
+      invalidate();
+    } else if (!reduced && warnMats.current.length && separation > 0.15) {
       invalidate();
     }
   });
 
   return (
     <>
-      <ambientLight intensity={0.95} />
-      <hemisphereLight args={["#ffffff", "#8997ad", 2.4]} />
+      <ambientLight intensity={0.92} />
+      <hemisphereLight args={["#ffffff", "#8997ad", 2.3]} />
       <directionalLight
         position={[4, 8, 5]}
-        intensity={3.8}
+        intensity={3.6}
         castShadow={!compact}
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-4}
-        shadow-camera-right={4}
-        shadow-camera-top={4}
-        shadow-camera-bottom={-4}
+        shadow-camera-left={-4.5}
+        shadow-camera-right={4.5}
+        shadow-camera-top={4.5}
+        shadow-camera-bottom={-4.5}
         shadow-bias={-0.001}
       />
       <directionalLight position={[-4, -2, -3]} intensity={1.8} color="#b9caff" />
-      <pointLight position={[0, 0, 2]} intensity={1.5} color="#7F00FD" distance={6} />
+      <pointLight ref={rimLight} position={[0, 0, 2.2]} intensity={1.4} color="#7F00FD" distance={6} />
 
-      <group ref={root} scale={compact ? 0.9 : 1.15}>
-        {/* Bracket 1 (Upper-Left) */}
+      <group ref={root}>
+        {/* Upper-Left Modular Bracket */}
         <group ref={bracket1}>
-          <mesh geometry={bracketGeo} castShadow={!compact} receiveShadow>
-            <meshStandardMaterial
-              color={neutralWhite}
-              metalness={0.52}
-              roughness={0.24}
-            />
-          </mesh>
-
-          {/* Glowing core track along the spine */}
-          <mesh geometry={glowGeo} position={[0, 0, 0.2]}>
-            <meshStandardMaterial
-              ref={glowMat1}
-              color={signal}
-              emissive={signal}
-              emissiveIntensity={0.5}
-              roughness={0.2}
-            />
-          </mesh>
-          <mesh geometry={glowGeo} position={[0, 0, -0.2]}>
-            <meshStandardMaterial
-              color={signal}
-              emissive={signal}
-              emissiveIntensity={0.4}
-              roughness={0.2}
-            />
-          </mesh>
+          <ModularBracket
+            bracketGeo={baseBracketGeo}
+            trayGeo={midTrayGeo}
+            opticalGeo={opticalTrackGeo}
+            isLeft={true}
+            compact={compact}
+            indicatorRef={(el) => {
+              indicator1.current = el;
+            }}
+            warnRef={(el) => {
+              if (el) warnMats.current.push(el);
+            }}
+          />
         </group>
 
-        {/* Bracket 2 (Lower-Right) */}
+        {/* Lower-Right Modular Bracket */}
         <group ref={bracket2}>
-          <mesh geometry={bracketGeo} castShadow={!compact} receiveShadow>
-            <meshStandardMaterial
-              color={neutralWhite}
-              metalness={0.52}
-              roughness={0.24}
-            />
-          </mesh>
-
-          {/* Glowing core track along the spine */}
-          <mesh geometry={glowGeo} position={[0, 0, 0.2]}>
-            <meshStandardMaterial
-              ref={glowMat2}
-              color={signal}
-              emissive={signal}
-              emissiveIntensity={0.5}
-              roughness={0.2}
-            />
-          </mesh>
-          <mesh geometry={glowGeo} position={[0, 0, -0.2]}>
-            <meshStandardMaterial
-              color={signal}
-              emissive={signal}
-              emissiveIntensity={0.4}
-              roughness={0.2}
-            />
-          </mesh>
+          <ModularBracket
+            bracketGeo={baseBracketGeo}
+            trayGeo={midTrayGeo}
+            opticalGeo={opticalTrackGeo}
+            isLeft={false}
+            compact={compact}
+            indicatorRef={(el) => {
+              indicator2.current = el;
+            }}
+            warnRef={(el) => {
+              if (el) warnMats.current.push(el);
+            }}
+          />
         </group>
 
-        {/* Dynamic Connector Pins that bridge the diamond tips */}
-        <group ref={connectorGroup}>
-          <mesh geometry={pinGeo} position={[0, 1.42, 0]} rotation={[0, 0, Math.PI / 4]}>
-            <meshStandardMaterial color="#2457ff" emissive="#2457ff" emissiveIntensity={0.6} metalness={0.8} />
-          </mesh>
-          <mesh geometry={pinGeo} position={[0, -1.42, 0]} rotation={[0, 0, Math.PI / 4]}>
-            <meshStandardMaterial color="#7F00FD" emissive="#7F00FD" emissiveIntensity={0.6} metalness={0.8} />
-          </mesh>
+        {/* Optical Data Bus Bridges inside the two open gaps */}
+        <group ref={connectorRods}>
+          {/* Top-Right Gap Bridge */}
+          <group position={[0.884, 0.884, 0.05]} rotation={[0, 0, Math.PI / 4]}>
+            <mesh>
+              <cylinderGeometry args={[0.032, 0.032, 0.64, compact ? 8 : 16]} />
+              <meshStandardMaterial
+                ref={(el) => {
+                  if (el) bridgeMats.current[0] = el;
+                }}
+                color="#2457ff"
+                emissive="#2457ff"
+                emissiveIntensity={0.8}
+                metalness={0.8}
+              />
+            </mesh>
+            <mesh position={[0, 0, 0.02]}>
+              <cylinderGeometry args={[0.016, 0.016, 0.72, compact ? 6 : 10]} />
+              <meshStandardMaterial
+                ref={(el) => {
+                  if (el) bridgeMats.current[1] = el;
+                }}
+                color="#7F00FD"
+                emissive="#7F00FD"
+                emissiveIntensity={1.2}
+              />
+            </mesh>
+          </group>
+
+          {/* Bottom-Left Gap Bridge */}
+          <group position={[-0.884, -0.884, 0.05]} rotation={[0, 0, Math.PI / 4]}>
+            <mesh>
+              <cylinderGeometry args={[0.032, 0.032, 0.64, compact ? 8 : 16]} />
+              <meshStandardMaterial
+                ref={(el) => {
+                  if (el) bridgeMats.current[2] = el;
+                }}
+                color="#7F00FD"
+                emissive="#7F00FD"
+                emissiveIntensity={0.8}
+                metalness={0.8}
+              />
+            </mesh>
+            <mesh position={[0, 0, 0.02]}>
+              <cylinderGeometry args={[0.016, 0.016, 0.72, compact ? 6 : 10]} />
+              <meshStandardMaterial
+                ref={(el) => {
+                  if (el) bridgeMats.current[3] = el;
+                }}
+                color="#2457ff"
+                emissive="#2457ff"
+                emissiveIntensity={1.2}
+              />
+            </mesh>
+          </group>
         </group>
       </group>
 
       {!compact && (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.4, 0]} receiveShadow>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.85, 0]} receiveShadow>
           <planeGeometry args={[60, 60]} />
           <shadowMaterial transparent opacity={0.14} />
         </mesh>
@@ -425,27 +610,35 @@ export function ContinuityScene({
   reduced,
   onFailure,
   onRestore,
+  onReady,
 }: {
   compact: boolean;
   reduced: boolean;
   onFailure: () => void;
   onRestore?: () => void;
+  onReady?: () => void;
 }) {
   return (
     <Canvas
       shadows={compact ? false : "percentage"}
-      frameloop="demand"
-      camera={{ position: [0, 0, 5.8], fov: compact ? 42 : 38 }}
+      frameloop={reduced ? "demand" : "always"}
+      camera={{ position: [0, 0, 6.4], fov: compact ? 40 : 35 }}
       dpr={compact ? 1 : [1, 1.5]}
       gl={{
         antialias: !compact,
         alpha: true,
         powerPreference: "high-performance",
       }}
+      onCreated={() => {
+        // Signal that the WebGL context is initialized and ready for first paint
+        requestAnimationFrame(() => {
+          onReady?.();
+        });
+      }}
       fallback={<ContinuityFallback />}
     >
       <ContextGuard onFailure={onFailure} onRestore={onRestore} />
-      <LogoAssembly compact={compact} reduced={reduced} />
+      <ModularLogoAssembly compact={compact} reduced={reduced} />
     </Canvas>
   );
 }
