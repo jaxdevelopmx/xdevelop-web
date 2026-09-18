@@ -3,7 +3,7 @@ import { locales, type Locale, type PageSlug } from "@/content/site";
 
 export const defaultLocale: Locale = "es";
 
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://xdevelop.mx").replace(/\/+$/, "");
+export const siteUrl = (process.env.SITE_URL ?? "https://xdevelop.mx").replace(/\/+$/, "");
 
 export const hreflang: Record<Locale, string> = {
   es: "es-MX",
