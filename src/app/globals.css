@@ -2064,57 +2064,84 @@ footer[id] {
 
 .not-found {
   align-items: center;
-  display: flex;
+  background: var(--paper);
+  display: grid;
+  gap: clamp(28px, 5vw, 80px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   min-height: 100svh;
-  padding: 120px clamp(24px, 5vw, 80px) 80px;
+  padding: clamp(96px, 13vh, 150px) clamp(24px, 7vw, 120px) clamp(48px, 8vh, 96px);
+  position: relative;
+}
+
+.not-found-brand {
+  left: clamp(24px, 7vw, 120px);
+  position: absolute;
+  top: 26px;
+}
+
+.not-found-stage {
+  display: flex;
+  justify-content: center;
+}
+
+.not-found-mark {
+  height: auto;
+  overflow: visible;
+  width: min(100%, 460px);
+}
+
+.nf-code {
+  fill: var(--ink);
+  font-family: var(--font-onest), system-ui, sans-serif;
+  font-size: 104px;
+  font-weight: 600;
+  letter-spacing: -0.06em;
 }
 
 .not-found-copy {
-  max-width: 720px;
+  max-width: 560px;
 }
 
 .not-found-copy h1 {
-  font-size: clamp(44px, 6vw, 76px);
-  letter-spacing: -0.035em;
-  line-height: 1.02;
-  margin: 24px 0;
+  font-size: clamp(30px, 3.4vw, 50px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1.04;
+  margin: 20px 0 0;
 }
 
 .not-found-copy>p {
-  color: rgba(16, 27, 53, 0.72);
-  font-size: 18px;
-  line-height: 1.55;
-  max-width: 58ch;
+  color: var(--ink-68);
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.5;
+  margin-top: 18px;
+  max-width: 52ch;
 }
 
 .not-found-links {
+  align-items: center;
   border-top: 1px solid var(--line);
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
-  margin-top: 40px;
+  gap: 22px;
+  margin-top: 36px;
   padding-top: 28px;
 }
 
-.not-found-links a {
-  font-size: 15px;
-  font-weight: 560;
-  transition: color 180ms ease;
-}
-
-.not-found-links a:hover {
-  color: var(--cobalt);
-}
-
-.not-found-alternate {
-  color: rgba(16, 27, 53, 0.56);
+.not-found-links .text-link {
   font-size: 14px;
-  margin-top: 28px;
 }
 
-.not-found-alternate a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (width <= 900px) {
+  .not-found {
+    align-content: center;
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 116px;
+  }
+
+  .not-found-mark {
+    width: min(100%, 300px);
+  }
 }
 
 .footer-consent {
