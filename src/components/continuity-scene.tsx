@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { RoundedBox } from "@react-three/drei";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
@@ -141,16 +140,18 @@ function ModularBracket({
 
       {/* Flush Ceramic Micro-Module on top arm */}
       <group position={[-0.9, 1.13, 0.13]}>
-        <RoundedBox args={[0.22, 0.12, 0.05]} radius={0.015} smoothness={compact ? 2 : 3}>
+        <mesh>
+          <boxGeometry args={[0.22, 0.12, 0.05]} />
           <meshStandardMaterial color={isLeft ? ceramicWhite : cobalt} metalness={0.15} roughness={0.25} />
-        </RoundedBox>
+        </mesh>
       </group>
 
       {/* Flush Ceramic Micro-Module on bottom arm */}
       <group position={[-0.9, -1.13, 0.13]}>
-        <RoundedBox args={[0.22, 0.12, 0.05]} radius={0.015} smoothness={compact ? 2 : 3}>
+        <mesh>
+          <boxGeometry args={[0.22, 0.12, 0.05]} />
           <meshStandardMaterial color={isLeft ? cobalt : ceramicWhite} metalness={0.15} roughness={0.25} />
-        </RoundedBox>
+        </mesh>
       </group>
 
       {/* Risk beacons on arm tips - flicker while disassembled, settle to stable green when docked */}
