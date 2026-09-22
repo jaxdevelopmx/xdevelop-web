@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ClientSection } from "@/components/client-section";
 import { MotionReveal } from "@/components/motion-reveal";
 import { SceneLoader } from "@/components/scene-loader";
+import { SocialLinks } from "@/components/social-links";
 import { getSchedulingHref, isExternalScheduling, organization } from "@/content/organization";
 import { analyticsEvents } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
@@ -308,11 +309,50 @@ export default function Home() {
       </main>
 
       <footer className="site-footer" id="nosotros">
-        <div className="footer-brand" data-reveal><Image src="/brand/xdevelop-logo-black.png" className="theme-logo-light" alt="XDEVELOP" width={196} height={52} /><Image src="/brand/xdevelop-logo-white.png" className="theme-logo-dark" alt="XDEVELOP" width={196} height={52} /><p>Software para operaciones que no pueden detenerse.</p></div>
-        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Contacto</span><a href={`mailto:${organization.email}`}>{organization.email}</a><a href={`tel:${organization.phone}`}>{organization.phoneDisplay}</a><a href={organization.whatsapp} target="_blank" rel="noreferrer" data-analytics-event={analyticsEvents.whatsappClick} data-analytics-source="footer">WhatsApp</a></div>
-        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Oficinas</span><address>Av. Marina Nacional 385, Piso 3<br />Verónica Anzures, Miguel Hidalgo<br />CDMX, México</address></div>
-        <div className="footer-column" data-reveal data-reveal-group="footer"><span className="footer-label">Explorar</span><a href="#proyecto">Qué hacemos</a><a href="#casos">Casos</a><a href="#equipo">Equipo</a><a href="#contacto">Aviso de privacidad</a></div>
-        <div className="footer-bottom"><span>© 2026 XDEVELOP</span><span>Hecho para continuar.</span></div>
+        <div className="footer-index">
+          <div className="footer-brand" data-reveal data-reveal-group="footer">
+            <Image src="/brand/xdevelop-logo-black.png" className="theme-logo-light" alt="XDEVELOP" width={196} height={52} />
+            <Image src="/brand/xdevelop-logo-white.png" className="theme-logo-dark" alt="XDEVELOP" width={196} height={52} />
+            <p>Software para operaciones que no pueden detenerse.</p>
+          </div>
+
+          <nav className="footer-nav" data-reveal data-reveal-group="footer" aria-label="Secciones del sitio">
+            <span className="footer-label">Explorar</span>
+            <a href="#proyecto">Qué hacemos</a>
+            <a href="#equipo">Cómo trabajamos</a>
+            <a href="#clientes">Clientes</a>
+            <a href="#casos">Experiencia</a>
+          </nav>
+
+          <div className="footer-nav" data-reveal data-reveal-group="footer">
+            <span className="footer-label">Contacto</span>
+            <a href={`mailto:${organization.email}`}>{organization.email}</a>
+            <a href={`tel:${organization.phone}`}>{organization.phoneDisplay}</a>
+            <a
+              href={organization.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              data-analytics-event={analyticsEvents.whatsappClick}
+              data-analytics-source="footer"
+            >
+              WhatsApp
+            </a>
+          </div>
+
+          <nav className="footer-nav" data-reveal data-reveal-group="footer" aria-label="Enlaces legales">
+            <span className="footer-label">Legales</span>
+            <a href="#contacto">Aviso de privacidad</a>
+            <a href={`mailto:${organization.email}`}>Trabaja con nosotros</a>
+          </nav>
+        </div>
+
+        <div className="footer-bottom">
+          <span>© 2026 XDEVELOP</span>
+          <address className="footer-address">
+            {organization.address.street}, {organization.address.locality}
+          </address>
+          <SocialLinks />
+        </div>
       </footer>
       <MotionReveal />
     </div>
