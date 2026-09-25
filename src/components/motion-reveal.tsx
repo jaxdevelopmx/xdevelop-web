@@ -68,10 +68,31 @@ export function MotionReveal() {
               duration: 0.9,
               ease: "power3.out",
               stagger: 0.07,
-              overwrite: true,
+              // "auto" y no true: true mataría también la salida de abajo.
+              overwrite: "auto",
             }),
         });
       });
+
+      // Salida: al acercarse al borde superior cada bloque se desvanece y sube un
+      // poco, en vez de cortarse de golpe. Va ligado al scroll: al volver, reaparece.
+      // Se salta lo anidado para no multiplicar la opacidad de padre e hijo.
+      gsap.utils
+        .toArray<HTMLElement>("[data-reveal], [data-exit]", document.body)
+        .filter((el) => !el.parentElement?.closest("[data-reveal], [data-exit]"))
+        .forEach((el) => {
+          gsap.fromTo(
+            el,
+            { opacity: 1, y: 0 },
+            {
+              opacity: 0,
+              y: -24,
+              ease: "none",
+              immediateRender: false,
+              scrollTrigger: { trigger: el, start: "bottom 38%", end: "bottom 6%", scrub: 0.5 },
+            }
+          );
+        });
 
       const refresh = () => ScrollTrigger.refresh();
       document.fonts?.ready.then(refresh).catch(() => undefined);

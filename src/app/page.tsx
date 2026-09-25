@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ClientSection } from "@/components/client-section";
+import { ClosingMark } from "@/components/closing-mark";
 import { MotionReveal } from "@/components/motion-reveal";
 import { SceneLoader } from "@/components/scene-loader";
 import { SocialLinks } from "@/components/social-links";
+import { TeamGrid } from "@/components/team-grid";
 import { getSchedulingHref, isExternalScheduling, organization } from "@/content/organization";
 import { analyticsEvents } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
@@ -60,6 +62,8 @@ const cases = [
 const products = [
   {
     name: "Maicero",
+    // Always rendered on the dark `.cases` band, so the white-wordmark lockup applies in both themes.
+    logo: { src: "/brand/maicero/maicero-lockup-dark.svg", width: 328, height: 64, tone: undefined },
     tag: "Producto propio XDEVELOP",
     metric: "97.7%",
     blurb: "La experiencia de operar Maicero conecta el desarrollo con ventas, registros y evidencia del trabajo diario.",
@@ -67,6 +71,8 @@ const products = [
   },
   {
     name: "Residia",
+    // Same asset and "deep" tone as the clients gallery: brightened so the blue holds on the dark band.
+    logo: { src: "/media/generated/client-logos-residia-residia-logo-degradado-640.webp", width: 438, height: 106, tone: "deep" },
     tag: "Producto propio XDEVELOP",
     metric: "−60%",
     blurb: "Accesos, cobranza e incidencias conviven en un mismo producto. Las necesidades de la administración alimentan su evolución.",
@@ -133,14 +139,14 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="story-chapter" aria-labelledby="integration-title">
+            <section className="story-chapter" data-exit aria-labelledby="integration-title">
               <div className="eyebrow"><span className="signal-line" /> 02 · Integrar el equipo</div>
               <h2 id="integration-title">Cada parte necesita a alguien que vea el conjunto.</h2>
               <p>Separamos las responsabilidades, revisamos las conexiones y sumamos el equipo que falta. Lo que ya sirve conserva su lugar.</p>
               <ol className="story-responsibilities"><li>Dirección y arquitectura</li><li>Ingeniería y calidad</li><li>Operación y soporte</li></ol>
               <a className="text-link" href="#equipo">Conoce las responsabilidades</a>
             </section>
-            <section className="story-chapter" aria-labelledby="operation-title">
+            <section className="story-chapter" data-exit aria-labelledby="operation-title">
               <div className="eyebrow"><span className="status-dot" /> 03 · Sistema operando</div>
               <h2 id="operation-title">Todo conectado. Listo para continuar.</h2>
               <p>Código bajo tu control, decisiones con responsable y un equipo que conserva el contexto. Una base para seguir construyendo.</p>
@@ -189,16 +195,10 @@ export default function Home() {
             </div>
             <p>No necesitas aprender siete profesiones para terminar tu proyecto. Una primera versión puede convertir una idea en pantallas y funciones; un sistema real necesita que distintas decisiones tengan responsables.</p>
           </div>
-          <div className="role-grid">
-            {roles.map(([title, text], index) => (
-              <article className="role" key={title} data-reveal data-reveal-group="roles">
-                <span className="role-index">0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-          <div className="continuity-statement" data-reveal><span /> No incorporas personas aisladas. Incorporas un equipo acostumbrado a trabajar junto.</div>
+          <TeamGrid
+            roles={roles}
+            statement="No incorporas personas aisladas. Incorporas un equipo acostumbrado a trabajar junto."
+          />
         </section>
 
         <section className="method section-paper scene-act-2" aria-labelledby="method-title">
@@ -242,9 +242,20 @@ export default function Home() {
           <div className="product-feature">
             {products.map((product) => (
               <article className="product-feature-card" key={product.name} data-reveal data-reveal-group="products">
-                <span className="product-feature-tag">{product.tag}</span>
+                <div className="product-feature-head">
+                  <span className="product-feature-tag">{product.tag}</span>
+                  <h3>
+                    <Image
+                      src={product.logo.src}
+                      className="product-feature-logo"
+                      data-tone={product.logo.tone}
+                      alt={product.name}
+                      width={product.logo.width}
+                      height={product.logo.height}
+                    />
+                  </h3>
+                </div>
                 <strong className="product-feature-metric">{product.metric}</strong>
-                <h3>{product.name}</h3>
                 <p>{product.blurb}</p>
                 <Link className="arrow-link" href="#casos">{product.action}</Link>
               </article>
@@ -270,7 +281,7 @@ export default function Home() {
         </section>
 
         <section className="closing scene-act-3" id="contacto" aria-labelledby="closing-title">
-          <div className="closing-mark" data-reveal>×</div>
+          <ClosingMark />
           <div className="closing-copy">
             <div className="eyebrow" data-reveal><span className="status-dot" /> El siguiente paso</div>
             <h2 id="closing-title" data-reveal data-reveal-delay="0.08">Ya construiste una parte. No tienes que terminarla solo.</h2>
