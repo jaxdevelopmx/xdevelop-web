@@ -7,3 +7,20 @@ export const brandBracketBottom =
 
 export const brandBracketTop =
   "M223.9,114.6L241.4,97.2L241.4,97.2L245.6,93.4L250.3,90.0L255.2,87.1L260.4,84.8L265.9,83.1L271.5,81.9L277.1,81.3L282.9,81.3L288.5,81.9L294.1,83.1L299.6,84.8L304.8,87.1L309.7,90.0L314.4,93.4L318.6,97.2L452.8,231.4L452.8,231.4L456.6,235.6L460.0,240.3L462.9,245.2L465.2,250.4L466.9,255.9L468.1,261.5L468.7,267.1L468.7,272.9L468.1,278.5L466.9,284.1L465.2,289.6L462.9,294.8L460.0,299.7L456.6,304.4L452.8,308.6L435.4,326.1L416.0,306.8L433.5,289.3L472.1,327.9L474.0,325.8L475.7,323.5L477.1,321.0L478.3,318.4L479.2,315.7L479.8,312.9L480.1,310.0L480.1,307.2L479.8,304.3L479.2,301.5L478.3,298.8L477.1,296.2L475.7,293.7L474.0,291.4L472.1,289.3L299.3,116.5L299.3,116.5L297.2,114.6L294.9,112.9L292.4,111.5L289.8,110.3L287.1,109.4L284.3,108.8L281.4,108.5L278.6,108.5L275.7,108.8L272.9,109.4L270.2,110.3L267.6,111.5L265.1,112.9L262.8,114.6L260.7,116.5L243.2,134.0Z";
+
+/**
+ * Isotipo como trazos de eje, ya orientado (el mismo giro de 90° que usa
+ * NotFoundMark) y centrado en 280,280. Grosor 27.3 y radio exterior 54.6,
+ * medidos sobre las esquinas sanas de los rellenos de arriba y cotejados con
+ * public/brand/xdevelop-isotype.png. Son trazables (dasharray) y no arrastran
+ * el defecto de esquina que tienen brandBracketTop/brandBracketBottom.
+ */
+export const brandStrokeWidth = 27.3;
+
+/** Brazo superior-izquierdo: esquinas izquierda y superior. */
+export const brandStrokeBracketUpper =
+  "M134.37 326.39 L116.94 308.96 A40.95 40.95 0 0 1 116.94 251.04 L251.04 116.94 A40.95 40.95 0 0 1 308.96 116.94 L326.39 134.37";
+
+/** Brazo inferior-derecho: esquinas derecha e inferior. Arranca en la abertura superior-derecha. */
+export const brandStrokeBracketLower =
+  "M425.63 233.61 L443.06 251.04 A40.95 40.95 0 0 1 443.06 308.96 L308.96 443.06 A40.95 40.95 0 0 1 251.04 443.06 L233.61 425.63";

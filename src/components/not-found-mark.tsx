@@ -7,7 +7,8 @@ import { brandBracketBottom, brandBracketTop, brandMarkCenter, brandMarkViewBox 
 
 gsap.registerPlugin(useGSAP);
 
-const bracketGap = 52;
+/** Separación sobre el eje por el que abre el isotipo: arriba-izquierda y abajo-derecha. */
+const bracketGap = 34;
 
 export function NotFoundMark() {
   const markRef = useRef<SVGSVGElement>(null);
@@ -20,13 +21,14 @@ export function NotFoundMark() {
         const enter = gsap.timeline({ defaults: { ease: "power3.out" } });
 
         enter
-          .from(".nf-bracket-left", { x: -180, autoAlpha: 0, duration: 1.1 })
-          .from(".nf-bracket-right", { x: 180, autoAlpha: 0, duration: 1.1 }, "<0.06")
+          .from(".nf-bracket-left", { x: -130, y: -130, autoAlpha: 0, duration: 1.1 })
+          .from(".nf-bracket-right", { x: 130, y: 130, autoAlpha: 0, duration: 1.1 }, "<0.06")
           .from(".nf-code", { autoAlpha: 0, scale: 0.86, duration: 0.7, transformOrigin: "center" }, "-=0.42")
           .from(".nf-signal", { scaleX: 0, autoAlpha: 0, transformOrigin: "left center", duration: 0.6 }, "-=0.3");
 
         gsap.to(".nf-bracket-left", {
-          x: -10,
+          x: -7,
+          y: -7,
           duration: 3.6,
           ease: "sine.inOut",
           repeat: -1,
@@ -35,7 +37,8 @@ export function NotFoundMark() {
         });
 
         gsap.to(".nf-bracket-right", {
-          x: 10,
+          x: 7,
+          y: 7,
           duration: 3.6,
           ease: "sine.inOut",
           repeat: -1,
@@ -66,23 +69,25 @@ export function NotFoundMark() {
       fill="none"
       aria-hidden="true"
     >
-      <g transform={`rotate(45 ${brandMarkCenter} ${brandMarkCenter})`}>
-        <g className="nf-bracket nf-bracket-left" transform={`translate(${-bracketGap} 0)`}>
+      <g className="nf-bracket nf-bracket-left" transform={`translate(${-bracketGap} ${-bracketGap})`}>
+        <g transform={`rotate(90 ${brandMarkCenter} ${brandMarkCenter})`}>
           <path d={brandBracketBottom} fill="var(--ink)" />
         </g>
-        <g className="nf-bracket nf-bracket-right" transform={`translate(${bracketGap} 0)`}>
+      </g>
+      <g className="nf-bracket nf-bracket-right" transform={`translate(${bracketGap} ${bracketGap})`}>
+        <g transform={`rotate(90 ${brandMarkCenter} ${brandMarkCenter})`}>
           <path d={brandBracketTop} fill="var(--cobalt)" />
         </g>
       </g>
       <text
         className="nf-code fill-[var(--ink)] text-[104px] font-semibold tracking-[-0.06em] font-[var(--font-onest),system-ui,sans-serif]"
-        x="276"
-        y="308"
+        x="280"
+        y="312"
         textAnchor="middle"
       >
         404
       </text>
-      <line className="nf-signal" x1="220" y1="352" x2="332" y2="352" stroke="var(--xdev-purple-primary)" strokeWidth="4" strokeLinecap="round" />
+      <line className="nf-signal" x1="225" y1="344" x2="335" y2="344" stroke="var(--xdev-purple-primary)" strokeWidth="4" strokeLinecap="round" />
     </svg>
   );
 }
