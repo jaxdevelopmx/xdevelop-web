@@ -254,7 +254,7 @@ html.dark .theme-logo-light {
 .desktop-nav a,
 .language {
   color: var(--ink-72);
-  font-size: 14px;
+  font-size: clamp(14px, calc(6px + 0.8vw), 17px);
   font-weight: 560;
   letter-spacing: -0.01em;
   transition: color 180ms ease;
@@ -263,6 +263,10 @@ html.dark .theme-logo-light {
 .desktop-nav a:hover,
 .language:hover {
   color: var(--cobalt);
+}
+
+.desktop-nav a[aria-current="page"] {
+  color: var(--ink);
 }
 
 .header-actions {
@@ -285,7 +289,7 @@ html.dark .theme-logo-light {
 
 .text-link span,
 .arrow-link span {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
 }
 
@@ -332,7 +336,7 @@ html.dark .theme-logo-light {
 .eyebrow {
   align-items: center;
   display: flex;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 650;
   gap: 9px;
   letter-spacing: 0.01em;
@@ -392,7 +396,7 @@ h1 em {
 .arrow-link {
   border-bottom: 1px solid currentColor;
   display: inline-flex;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 620;
   gap: 12px;
   padding-bottom: 4px;
@@ -400,7 +404,7 @@ h1 em {
 }
 
 .text-link {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .hero-note {
@@ -418,7 +422,7 @@ h1 em {
 .role-index,
 .process-step>span {
   color: var(--cobalt);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
@@ -455,14 +459,14 @@ h1 em {
 }
 
 .proof-strip strong {
-  font-size: 32px;
+  font-size: 38px;
   font-weight: 620;
   letter-spacing: -0.06em;
 }
 
 .proof-strip span {
   color: var(--ink-58);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.25;
   max-width: 175px;
 }
@@ -486,7 +490,7 @@ h1 em {
 .section-intro h2,
 .method-heading h2,
 .closing h2 {
-  font-size: clamp(38px, 5vw, 74px);
+  font-size: clamp(40px, 5.3vw, 78px);
   font-weight: 560;
   letter-spacing: -0.075em;
   line-height: 0.99;
@@ -519,7 +523,7 @@ h1 em {
 }
 
 .entry-row h3 {
-  font-size: clamp(18px, 2vw, 25px);
+  font-size: clamp(20px, 2.2vw, 28px);
   font-weight: 550;
   letter-spacing: -0.04em;
   line-height: 1.05;
@@ -528,7 +532,7 @@ h1 em {
 .entry-row p,
 .entry-row .arrow-link {
   color: var(--white-58);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.45;
 }
 
@@ -556,7 +560,7 @@ h1 em {
 
 .split-intro>p {
   color: var(--ink-66);
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.45;
   max-width: 460px;
   padding-left: 24px;
@@ -651,7 +655,7 @@ h1 em {
 }
 
 .role h3 {
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 600;
   letter-spacing: -0.05em;
   line-height: 1.05;
@@ -661,7 +665,7 @@ h1 em {
 
 .role p {
   color: var(--ink-62);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.45;
   max-width: 440px;
 }
@@ -669,7 +673,7 @@ h1 em {
 .continuity-statement {
   align-items: center;
   display: flex;
-  font-size: clamp(19px, 2.4vw, 32px);
+  font-size: clamp(21px, 2.6vw, 35px);
   font-weight: 560;
   gap: 18px;
   letter-spacing: -0.05em;
@@ -721,7 +725,7 @@ h1 em {
 
 .process-step strong {
   display: block;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 600;
   letter-spacing: -0.05em;
   line-height: 1.05;
@@ -731,9 +735,735 @@ h1 em {
 
 .process-step p {
   color: var(--ink-58);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.45;
   max-width: 300px;
+}
+
+/* Inner pages (Qué hacemos…): same gutters and scale as the home sections. */
+.page-hero {
+  padding: 190px clamp(24px, 9vw, 155px) 120px;
+  position: relative;
+  z-index: 2;
+}
+
+.page-hero h1 {
+  font-size: clamp(44px, 5.6vw, 92px);
+  font-weight: 560;
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+  margin: 28px 0 0;
+  max-width: 1150px;
+}
+
+.service-grid {
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 90px;
+}
+
+.service {
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  min-height: 280px;
+  padding: 30px 40px 40px 0;
+}
+
+.service:nth-child(even) {
+  border-right: 0;
+  padding-left: 40px;
+  padding-right: 0;
+}
+
+/* Sector or client names above a card title; shared by every inner page. */
+.card-label {
+  color: var(--cobalt);
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.dark .card-label {
+  color: #a8beff;
+}
+
+.service h2 {
+  font-size: clamp(26px, 2.4vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin: 34px 0 16px;
+  max-width: 540px;
+}
+
+.service > h2:first-child {
+  margin-top: 4px;
+}
+
+.service .card-label + h2 {
+  margin-top: 14px;
+}
+
+.page-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin-top: 56px;
+}
+
+.service p {
+  color: var(--ink-62);
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 540px;
+}
+
+.project-grid {
+  display: grid;
+  gap: 56px 40px;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 90px;
+}
+
+.project h2 {
+  font-size: clamp(26px, 2.4vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin: 14px 0 12px;
+}
+
+.project p {
+  color: var(--ink-62);
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 560px;
+}
+
+.project-copy {
+  border-top: 1px solid var(--line);
+  margin-top: 26px;
+  padding-top: 22px;
+}
+
+/* Odd last card: spans the row with the image beside the copy. */
+.project-wide {
+  align-items: center;
+  column-gap: 40px;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.project-wide .project-copy {
+  margin-top: 0;
+}
+
+/* Each card's image floats on the client's own brand color: no frame, no border. */
+.project-media {
+  align-items: center;
+  aspect-ratio: 16 / 10;
+  background: var(--brand, var(--paper));
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 7% 8%;
+}
+
+.project-media img {
+  filter: drop-shadow(0 18px 24px oklch(0 0 0 / 26%));
+  height: 100%;
+  min-width: 0;
+  object-fit: contain;
+  width: auto;
+}
+
+.project-media img.project-logo {
+  filter: none;
+  height: auto;
+  max-height: 58%;
+  max-width: 44%;
+}
+
+/* Project detail: a full-bleed band in the client's own color carries the name,
+   summary and metric; the mockup floats on it and overlaps into the content. */
+.case-page {
+  padding-top: 118px;
+}
+
+.case-band {
+  background: var(--brand);
+  color: white;
+  padding: 88px clamp(24px, 9vw, 155px) 0;
+  position: relative;
+  z-index: 2;
+}
+
+.case-band-head {
+  align-items: end;
+  display: grid;
+  gap: 48px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.case-kind {
+  color: oklch(from white l c h / 74%);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.case-band h1 {
+  color: white;
+  font-size: clamp(64px, 10vw, 168px);
+  font-weight: 600;
+  letter-spacing: -0.075em;
+  line-height: 0.9;
+  margin: 18px 0 0;
+  max-width: none;
+}
+
+.case-summary {
+  color: oklch(from white l c h / 84%);
+  font-size: clamp(20px, 1.6vw, 26px);
+  line-height: 1.45;
+  margin-top: 28px;
+  max-width: 32em;
+}
+
+.case-metric strong {
+  display: block;
+  font-size: clamp(64px, 7vw, 112px);
+  font-weight: 550;
+  letter-spacing: -0.085em;
+  line-height: 1;
+}
+
+.case-metric span {
+  color: oklch(from white l c h / 80%);
+  display: block;
+  font-size: 18px;
+  line-height: 1.45;
+  margin-top: 12px;
+  max-width: 16em;
+}
+
+.case-stage {
+  display: flex;
+  justify-content: center;
+  margin: 72px 0 -140px;
+  position: relative;
+  z-index: 1;
+}
+
+.case-stage img {
+  filter: drop-shadow(0 28px 36px oklch(0 0 0 / 28%));
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  width: 100%;
+}
+
+.case-stage-logo {
+  margin: 64px 0 0;
+  padding-bottom: 88px;
+}
+
+.case-stage-logo img {
+  filter: none;
+}
+
+.case-content {
+  padding: 72px clamp(24px, 9vw, 155px) 0;
+  position: relative;
+  z-index: 2;
+}
+
+.case-content-overlap {
+  padding-top: 212px;
+}
+
+.case-facts {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin: 0;
+}
+
+.case-facts > div {
+  border-right: 1px solid var(--line);
+  padding: 22px 24px 24px;
+}
+
+.case-facts > div:first-child {
+  padding-left: 0;
+}
+
+.case-facts > div:last-child {
+  border-right: 0;
+}
+
+.case-facts dt {
+  color: var(--ink-50);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.case-facts dd {
+  font-size: 17px;
+  line-height: 1.45;
+  margin: 6px 0 0;
+}
+
+.case-row {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  padding: 48px 0;
+}
+
+.case-row h2 {
+  font-size: clamp(22px, 1.8vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.case-row p {
+  color: var(--ink-66);
+  font-size: 19px;
+  line-height: 1.6;
+  max-width: 38em;
+}
+
+.case-row .case-result {
+  color: var(--ink);
+  font-size: clamp(22px, 1.8vw, 28px);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+.case-row ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.case-row li {
+  border-bottom: 1px solid var(--line);
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 40em;
+  padding: 14px 0;
+}
+
+.case-row li:first-child {
+  padding-top: 0;
+}
+
+.case-row li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.case-status-dot {
+  background: #1f9d63;
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  margin-right: 8px;
+  vertical-align: 0.1em;
+  width: 8px;
+}
+
+.case-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.case-row .case-tags li,
+.case-row .case-tags li:first-child,
+.case-row .case-tags li:last-child {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 560;
+  padding: 9px 16px;
+}
+
+/* Full-width sections (challenges, highlights, screens, method): title above a grid. */
+.case-section {
+  border-bottom: 1px solid var(--line);
+  padding: 64px 0;
+}
+
+.case-section > h2 {
+  font-size: clamp(28px, 2.6vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+  margin: 0 0 36px;
+}
+
+.case-challenges {
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.case-challenges article {
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  padding: 28px 28px 32px;
+}
+
+.case-challenges article:nth-child(3n + 1) {
+  padding-left: 0;
+}
+
+.case-challenges article:nth-child(3n) {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.case-challenges article:nth-last-child(-n + 3) {
+  border-bottom: 0;
+}
+
+.case-challenges h3,
+.case-highlights h3 {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.case-challenges p,
+.case-highlights p {
+  color: var(--ink-66);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.case-challenges .case-answer {
+  color: var(--ink);
+  margin-top: 14px;
+}
+
+.case-answer span {
+  color: var(--cobalt);
+  font-weight: 650;
+}
+
+.dark .case-answer span {
+  color: #a8beff;
+}
+
+.case-highlights {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.case-highlights article {
+  border-top: 3px solid var(--brand);
+  padding-top: 22px;
+}
+
+.dark .case-highlights article {
+  border-top-color: oklch(from var(--brand) calc(l + 0.35) c h);
+}
+
+/* Screens sit on a light tint of the brand at one shared height. Flat screenshots
+   get the rounded corners of their device; transparent mockups keep their silhouette. */
+.case-gallery {
+  align-items: flex-end;
+  background: color-mix(in oklch, var(--brand) 12%, var(--paper));
+  display: flex;
+  gap: 6%;
+  justify-content: center;
+  padding: 6% 6% 4%;
+}
+
+.case-gallery figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.case-gallery img {
+  display: block;
+  filter: drop-shadow(0 22px 30px oklch(0 0 0 / 22%));
+  height: clamp(220px, 26vw, 400px);
+  margin: 0 auto;
+  max-width: 100%;
+  object-fit: contain;
+  width: auto;
+}
+
+.case-gallery img.shot-flat {
+  border-radius: 18px;
+  box-shadow: 0 22px 44px oklch(0 0 0 / 20%);
+  filter: none;
+}
+
+.case-gallery figcaption {
+  color: var(--ink-66);
+  font-size: 15px;
+  line-height: 1.45;
+  margin: 22px auto 0;
+  max-width: 26em;
+  text-align: center;
+}
+
+/* The darkest brands (TWBA) sit close to the dark-mode page; a hairline keeps the band's edge. */
+.dark .case-band,
+.dark .case-next {
+  box-shadow: inset 0 1px var(--line), inset 0 -1px var(--line);
+}
+
+.case-process {
+  margin-top: 0;
+}
+
+.case-more {
+  padding: 96px clamp(24px, 9vw, 155px) 0;
+  position: relative;
+  z-index: 2;
+}
+
+.case-more > h2 {
+  font-size: clamp(28px, 2.6vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  margin: 0 0 32px;
+}
+
+.case-more-grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.case-more-card .project-media {
+  margin-bottom: 18px;
+}
+
+.case-more-name {
+  display: block;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin-top: 6px;
+}
+
+.case-more-card:hover .case-more-name,
+.case-more-card:focus-visible .case-more-name {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.case-next {
+  background: var(--brand);
+  color: white;
+  display: block;
+  margin-top: 110px;
+  padding: 72px clamp(24px, 9vw, 155px) 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.case-next-label {
+  color: oklch(from white l c h / 74%);
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.case-next-name {
+  display: block;
+  font-size: clamp(48px, 7vw, 112px);
+  font-weight: 600;
+  letter-spacing: -0.07em;
+  line-height: 0.95;
+  margin-top: 16px;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.12em;
+}
+
+.case-next:hover .case-next-name,
+.case-next:focus-visible .case-next-name {
+  text-decoration-line: underline;
+}
+
+.case-next-sector {
+  color: oklch(from white l c h / 80%);
+  display: block;
+  font-size: 18px;
+  margin-top: 14px;
+}
+
+@media (width <= 700px) {
+  .page-hero {
+    padding: 140px 20px 90px;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(40px, 11vw, 60px);
+  }
+
+  .service-grid {
+    display: block;
+    margin-top: 56px;
+  }
+
+  .service,
+  .service:nth-child(even) {
+    border-right: 0;
+    min-height: auto;
+    padding: 24px 0 30px;
+  }
+
+  .service h2 {
+    margin-top: 22px;
+  }
+
+  .page-actions {
+    margin-top: 35px;
+  }
+
+  .case-page {
+    padding-top: 96px;
+  }
+
+  .case-band {
+    padding: 48px 20px 0;
+  }
+
+  .case-band-head {
+    gap: 28px;
+    grid-template-columns: 1fr;
+  }
+
+  .case-stage {
+    margin: 48px 0 -80px;
+  }
+
+  .case-stage-logo {
+    margin-bottom: 0;
+    padding-bottom: 56px;
+  }
+
+  .case-content {
+    padding: 40px 20px 0;
+  }
+
+  .case-content-overlap {
+    padding-top: 120px;
+  }
+
+  .case-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .case-facts > div,
+  .case-facts > div:first-child {
+    border-bottom: 1px solid var(--line);
+    border-right: 0;
+    padding: 16px 0;
+  }
+
+  .case-facts > div:last-child {
+    border-bottom: 0;
+  }
+
+  .case-row {
+    gap: 16px;
+    grid-template-columns: 1fr;
+    padding: 32px 0;
+  }
+
+  .case-row p,
+  .case-row li {
+    font-size: 17px;
+  }
+
+  .case-section {
+    padding: 44px 0;
+  }
+
+  .case-challenges,
+  .case-highlights,
+  .case-more-grid {
+    display: block;
+  }
+
+  .case-challenges article,
+  .case-challenges article:nth-child(3n + 1),
+  .case-challenges article:nth-child(3n) {
+    border-bottom: 1px solid var(--line);
+    border-right: 0;
+    padding: 22px 0;
+  }
+
+  .case-highlights article + article,
+  .case-more-card + .case-more-card {
+    margin-top: 32px;
+  }
+
+  .case-more-card {
+    display: block;
+  }
+
+  .case-gallery {
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px 20px;
+  }
+
+  .case-gallery img {
+    height: auto;
+    max-height: 420px;
+  }
+
+  .case-more {
+    padding: 64px 20px 0;
+  }
+
+  .case-next {
+    margin-top: 72px;
+    padding: 48px 20px 56px;
+  }
+
+  .project-grid {
+    display: block;
+    margin-top: 56px;
+  }
+
+  .project + .project {
+    margin-top: 48px;
+  }
+
+  .project-wide {
+    display: block;
+  }
+
+  .project-wide .project-copy {
+    margin-top: 26px;
+  }
+
+  .project p {
+    font-size: 17px;
+  }
+
+  .service p {
+    font-size: 17px;
+  }
 }
 
 .clients {
@@ -750,7 +1480,7 @@ h1 em {
 }
 
 .clients-head h2 {
-  font-size: clamp(32px, 3.6vw, 56px);
+  font-size: clamp(34px, 3.9vw, 60px);
   font-weight: 560;
   letter-spacing: -0.06em;
   line-height: 1.04;
@@ -769,7 +1499,7 @@ h1 em {
 
 .clients-lede {
   color: var(--ink-66);
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.45;
   max-width: 600px;
 }
@@ -786,14 +1516,14 @@ h1 em {
 
 .clients-count strong {
   display: block;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 650;
   line-height: 1.1;
 }
 
 .clients-count span:last-child {
   color: var(--ink-68);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
@@ -974,7 +1704,7 @@ h1 em {
   align-items: center;
   color: var(--cobalt);
   display: flex;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 650;
   gap: 9px;
 }
@@ -989,7 +1719,7 @@ h1 em {
 }
 
 .client-modal-panel h3 {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 620;
   letter-spacing: -0.04em;
   margin-top: 20px;
@@ -997,7 +1727,7 @@ h1 em {
 
 .client-modal-category {
   color: var(--ink-62);
-  font-size: 14px;
+  font-size: 16px;
   margin-top: 4px;
 }
 
@@ -1011,7 +1741,7 @@ h1 em {
 .client-modal-impact span {
   color: var(--xdev-purple-primary);
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1019,14 +1749,14 @@ h1 em {
 
 .client-modal-impact strong {
   display: block;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.3;
   margin-top: 5px;
 }
 
 .client-modal-description {
   color: var(--ink-72);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.55;
   margin-top: 20px;
 }
@@ -1180,7 +1910,7 @@ h1 em {
   border: 1px solid var(--white-32);
   border-radius: 999px;
   display: inline-flex;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.1em;
   padding: 7px 14px;
   text-transform: uppercase;
@@ -1188,7 +1918,7 @@ h1 em {
 
 .product-feature-metric {
   display: block;
-  font-size: clamp(52px, 5.4vw, 84px);
+  font-size: clamp(56px, 5.8vw, 90px);
   font-weight: 550;
   letter-spacing: -0.085em;
   line-height: 1;
@@ -1248,7 +1978,7 @@ h1 em {
 }
 
 .product-feature-card p {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
   margin-top: 12px;
   max-width: 480px;
@@ -1287,20 +2017,20 @@ h1 em {
 
 .case-top {
   display: flex;
-  font-size: 14px;
+  font-size: 16px;
   justify-content: space-between;
 }
 
 .case>strong {
   display: block;
-  font-size: clamp(48px, 5vw, 75px);
+  font-size: clamp(52px, 5.4vw, 80px);
   font-weight: 550;
   letter-spacing: -0.085em;
   margin: 43px 0 5px;
 }
 
 .case p {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
   max-width: 420px;
 }
@@ -1444,7 +2174,7 @@ h1 em {
   bottom: 0;
   color: var(--ink-65);
   display: flex;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 650;
   gap: 8px;
   justify-content: center;
@@ -1510,7 +2240,7 @@ h1 em {
 
 .closing-copy p {
   color: var(--ink-65);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.5;
   margin-top: 27px;
   max-width: 560px;
@@ -1540,7 +2270,7 @@ h1 em {
 
 .footer-brand p {
   color: var(--ink-57);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.45;
   margin-top: 15px;
 }
@@ -1548,7 +2278,7 @@ h1 em {
 .footer-nav {
   display: flex;
   flex-direction: column;
-  font-size: 15px;
+  font-size: 16px;
   gap: 9px;
   line-height: 1.45;
 }
@@ -1565,7 +2295,7 @@ h1 em {
 
 .footer-label {
   color: var(--ink-40);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 650;
   letter-spacing: -0.01em;
   margin-bottom: 13px;
@@ -1576,7 +2306,7 @@ h1 em {
   border-top: 1px solid var(--line);
   color: var(--ink-58);
   display: flex;
-  font-size: 13px;
+  font-size: 14px;
   gap: 28px;
   justify-content: space-between;
   padding-top: 20px;
@@ -1720,7 +2450,7 @@ h1 em {
   /* A este tamaño el estado choca con las esquinas del visor: cuelga bajo el cuadro. */
   .cm-status {
     bottom: auto;
-    font-size: 11px;
+    font-size: 12px;
     gap: 6px;
     top: calc(100% + 6px);
   }
@@ -1787,11 +2517,11 @@ h1 em {
   }
 
   .proof-strip strong {
-    font-size: 26px;
+    font-size: 30px;
   }
 
   .proof-strip span {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .diagnosis,
@@ -1812,7 +2542,7 @@ h1 em {
   .section-intro h2,
   .method-heading h2,
   .closing h2 {
-    font-size: clamp(38px, 12vw, 58px);
+    font-size: clamp(40px, 12.4vw, 60px);
   }
 
   .entry-list,
@@ -1829,7 +2559,7 @@ h1 em {
   }
 
   .entry-row h3 {
-    font-size: 21px;
+    font-size: 23px;
   }
 
   .role-grid,
@@ -1901,7 +2631,7 @@ h1 em {
   }
 
   .closing-copy p {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .site-footer {
@@ -2102,7 +2832,7 @@ h1 em {
   gap: 10px;
   align-items: center;
   color: var(--ink-58);
-  font-size: 12px;
+  font-size: 13px;
   border-top: 1px solid var(--line);
   padding-top: 16px;
 }
@@ -2117,12 +2847,22 @@ h1 em {
   padding: 118px 0 44px;
 }
 
+/* Copy spans the whole column beside the logo stage and scales with it, so the
+   headline stays at three lines instead of stacking narrow ones on wide screens. */
+.story-chapters .hero-copy {
+  max-width: none;
+}
+
 .story-chapters h1 {
-  font-size: clamp(50px, 5.1vw, 82px);
+  font-size: clamp(52px, 5.4vw, 96px);
   letter-spacing: -.065em;
   line-height: 1.02;
-  max-width: 700px;
+  max-width: none;
   text-wrap: balance;
+}
+
+.story-chapters .eyebrow {
+  font-size: clamp(15px, 1vw, 17px);
 }
 
 .story-chapters h1 em {
@@ -2130,20 +2870,25 @@ h1 em {
 }
 
 .story-chapters .hero-lede {
-  font-size: 18px;
+  font-size: clamp(20px, 1.4vw, 24px);
   line-height: 1.55;
-  max-width: 450px;
+  max-width: 31em;
 }
 
 .story-chapters .hero-note {
   margin-top: 54px;
-  max-width: 470px;
+  max-width: clamp(470px, 42vw, 860px);
+}
+
+.story-chapters .hero-note span {
+  flex: none;
+  white-space: nowrap;
 }
 
 .story-chapters .hero-note p {
-  font-size: 14px;
+  font-size: clamp(15px, 1vw, 17px);
   line-height: 1.45;
-  max-width: 285px;
+  max-width: 28em;
 }
 
 .story-chapter {
@@ -2156,7 +2901,7 @@ h1 em {
 }
 
 .story-chapter h2 {
-  font-size: clamp(42px, 4.6vw, 72px);
+  font-size: clamp(44px, 4.9vw, 86px);
   letter-spacing: -.06em;
   line-height: 1.06;
   margin: 28px 0;
@@ -2165,9 +2910,9 @@ h1 em {
 
 .story-chapter>p {
   color: #536078;
-  font-size: 18px;
+  font-size: clamp(20px, 1.4vw, 24px);
   line-height: 1.6;
-  max-width: 440px;
+  max-width: 31em;
 }
 
 .story-chapter>.text-link {
@@ -2178,14 +2923,14 @@ h1 em {
   padding: 0;
   list-style: none;
   width: 100%;
-  max-width: 400px;
+  max-width: clamp(400px, 38vw, 780px);
   margin: 30px 0 0;
 }
 
 .story-responsibilities li {
   border-bottom: 1px solid var(--line);
   padding: 13px 0;
-  font-size: 15px;
+  font-size: clamp(17px, 1.2vw, 20px);
 }
 
 :focus-visible {
@@ -2218,6 +2963,23 @@ footer[id] {
   color: #c1c8d6;
 }
 
+/* Hard-coded greys above are tuned for light mode; follow the lifted tones in dark. */
+.dark .story-chapter>p {
+  color: var(--ink-66);
+}
+
+.dark .proof-strip span {
+  color: var(--ink-60);
+}
+
+.dark .section-dark .case p,
+.dark .section-dark .case-top,
+.dark .section-dark .product-feature-card p,
+.dark .section-dark .product-feature-tag,
+.dark .entry-row p {
+  color: #e6e9ef;
+}
+
 @media (hover: none) {
   [data-slot="button"]:hover,
   a:hover {
@@ -2232,7 +2994,7 @@ footer[id] {
   }
 
   .story-chapters h1 {
-    font-size: 57px;
+    font-size: 60px;
   }
 
   .assembly-canvas {
@@ -2271,7 +3033,7 @@ footer[id] {
     bottom: 12px;
     left: 20px;
     right: 20px;
-    font-size: 10px;
+    font-size: 11px;
     padding-top: 8px;
   }
 
@@ -2282,13 +3044,13 @@ footer[id] {
   }
 
   .story-chapters h1 {
-    font-size: clamp(40px, 10.8vw, 65px);
+    font-size: clamp(42px, 11.2vw, 68px);
     margin: 22px 0;
   }
 
   .story-chapters .hero-lede,
   .story-chapter>p {
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.5;
   }
 
@@ -2304,7 +3066,7 @@ footer[id] {
   }
 
   .story-chapter h2 {
-    font-size: clamp(38px, 10vw, 58px);
+    font-size: clamp(40px, 10.4vw, 60px);
   }
 
   .language {
@@ -2326,6 +3088,26 @@ footer[id] {
   /* recessed dark panels */
   --line: oklch(from var(--ink) l c h / 15%);
   --structure: oklch(0.6 0.02 260);
+
+  /* Secondary copy reads too faint on the dark surfaces: lift the text tones. */
+  --ink-40: oklch(from var(--ink) l c h / 66%);
+  --ink-42: oklch(from var(--ink) l c h / 68%);
+  --ink-50: oklch(from var(--ink) l c h / 78%);
+  --ink-55: oklch(from var(--ink) l c h / 80%);
+  --ink-57: oklch(from var(--ink) l c h / 88%);
+  --ink-58: oklch(from var(--ink) l c h / 88%);
+  --ink-60: oklch(from var(--ink) l c h / 88%);
+  --ink-61: oklch(from var(--ink) l c h / 89%);
+  --ink-62: oklch(from var(--ink) l c h / 89%);
+  --ink-63: oklch(from var(--ink) l c h / 89%);
+  --ink-65: oklch(from var(--ink) l c h / 90%);
+  --ink-66: oklch(from var(--ink) l c h / 90%);
+  --ink-68: oklch(from var(--ink) l c h / 91%);
+  --ink-72: oklch(from var(--ink) l c h / 94%);
+  --ink-73: oklch(from var(--ink) l c h / 95%);
+  --white-58: oklch(from white l c h / 86%);
+  --white-62: oklch(from white l c h / 88%);
+  --white-68: oklch(from white l c h / 90%);
 
   --background: var(--mineral);
   --foreground: var(--ink);

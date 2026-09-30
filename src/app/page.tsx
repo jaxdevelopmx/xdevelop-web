@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ClientSection } from "@/components/client-section";
 import { ClosingMark } from "@/components/closing-mark";
+import { MainFooter } from "@/components/main-footer";
+import { MainHeader } from "@/components/main-header";
 import { MotionReveal } from "@/components/motion-reveal";
 import { SceneLoader } from "@/components/scene-loader";
-import { SocialLinks } from "@/components/social-links";
 import { TeamGrid } from "@/components/team-grid";
 import { getSchedulingHref, isExternalScheduling, organization } from "@/content/organization";
 import { analyticsEvents } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 const schedulingHref = getSchedulingHref("es");
 const schedulingAttributes = isExternalScheduling()
@@ -62,6 +62,7 @@ const cases = [
 const products = [
   {
     name: "Maicero",
+    slug: "maicero",
     // Always rendered on the dark `.cases` band, so the white-wordmark lockup applies in both themes.
     logo: { src: "/brand/maicero/maicero-lockup-dark.svg", width: 328, height: 64, tone: undefined },
     tag: "Producto propio XDEVELOP",
@@ -71,6 +72,7 @@ const products = [
   },
   {
     name: "Residia",
+    slug: "residia",
     // Same asset and "deep" tone as the clients gallery: brightened so the blue holds on the dark band.
     logo: { src: "/media/generated/client-logos-residia-residia-logo-degradado-640.webp", width: 438, height: 106, tone: "deep" },
     tag: "Producto propio XDEVELOP",
@@ -83,32 +85,7 @@ const products = [
 export default function Home() {
   return (
     <div className="home-shell">
-      <header className="site-header">
-        <Link href="#inicio" className="brand" aria-label="XDEVELOP, inicio">
-          <Image src="/brand/xdevelop-logo-black.png" className="theme-logo-light" alt="XDEVELOP software" width={196} height={52} priority />
-          <Image src="/brand/xdevelop-logo-white.png" className="theme-logo-dark" alt="XDEVELOP software" width={196} height={52} priority />
-        </Link>
-        <nav className="desktop-nav" aria-label="Navegación principal">
-          <a href="#proyecto">Qué hacemos</a>
-          <a href="#equipo">Cómo trabajamos</a>
-          <a href="#clientes">Clientes</a>
-          <a href="#casos">Experiencia</a>
-          <a href="#nosotros">Nosotros</a>
-        </nav>
-        <div className="header-actions">
-          <ThemeToggle />
-          <Button
-            render={<Link href="#contacto" />}
-            nativeButton={false}
-            variant="dark"
-            size="cta-sm"
-            data-analytics-event={analyticsEvents.scheduleOpen}
-            data-analytics-source="header"
-          >
-            Revisar mi proyecto
-          </Button>
-        </div>
-      </header>
+      <MainHeader />
 
       <main id="inicio">
         <div id="continuity-story" className="continuity-story">
@@ -257,7 +234,7 @@ export default function Home() {
                 </div>
                 <strong className="product-feature-metric">{product.metric}</strong>
                 <p>{product.blurb}</p>
-                <Link className="arrow-link" href="#casos">{product.action}</Link>
+                <Link className="arrow-link" href={`/proyectos/${product.slug}`}>{product.action}</Link>
               </article>
             ))}
           </div>
@@ -267,14 +244,14 @@ export default function Home() {
                 <div className="case-top"><span>{name}</span><span>{category}</span></div>
                 <strong>{result}</strong>
                 <p>{text}</p>
-                <a
+                <Link
                   className="arrow-link"
-                  href="#contacto"
+                  href={`/proyectos/${name.toLowerCase()}`}
                   data-analytics-event={analyticsEvents.caseSelect}
                   data-analytics-case={name}
                 >
                   Ver caso
-                </a>
+                </Link>
               </article>
             ))}
           </div>
@@ -319,52 +296,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="site-footer" id="nosotros">
-        <div className="footer-index">
-          <div className="footer-brand" data-reveal data-reveal-group="footer">
-            <Image src="/brand/xdevelop-logo-black.png" className="theme-logo-light" alt="XDEVELOP" width={196} height={52} />
-            <Image src="/brand/xdevelop-logo-white.png" className="theme-logo-dark" alt="XDEVELOP" width={196} height={52} />
-            <p>Software para operaciones que no pueden detenerse.</p>
-          </div>
-
-          <nav className="footer-nav" data-reveal data-reveal-group="footer" aria-label="Secciones del sitio">
-            <span className="footer-label">Explorar</span>
-            <a href="#proyecto">Qué hacemos</a>
-            <a href="#equipo">Cómo trabajamos</a>
-            <a href="#clientes">Clientes</a>
-            <a href="#casos">Experiencia</a>
-          </nav>
-
-          <div className="footer-nav" data-reveal data-reveal-group="footer">
-            <span className="footer-label">Contacto</span>
-            <a href={`mailto:${organization.email}`}>{organization.email}</a>
-            <a href={`tel:${organization.phone}`}>{organization.phoneDisplay}</a>
-            <a
-              href={organization.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              data-analytics-event={analyticsEvents.whatsappClick}
-              data-analytics-source="footer"
-            >
-              WhatsApp
-            </a>
-          </div>
-
-          <nav className="footer-nav" data-reveal data-reveal-group="footer" aria-label="Enlaces legales">
-            <span className="footer-label">Legales</span>
-            <a href="#contacto">Aviso de privacidad</a>
-            <a href={`mailto:${organization.email}`}>Trabaja con nosotros</a>
-          </nav>
-        </div>
-
-        <div className="footer-bottom">
-          <span>© 2026 XDEVELOP</span>
-          <address className="footer-address">
-            {organization.address.street}, {organization.address.locality}
-          </address>
-          <SocialLinks />
-        </div>
-      </footer>
+      <MainFooter />
       <MotionReveal />
     </div>
   );
