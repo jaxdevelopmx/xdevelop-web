@@ -77,10 +77,18 @@ export function MotionReveal() {
       // Salida: al acercarse al borde superior cada bloque se desvanece y sube un
       // poco, en vez de cortarse de golpe. Va ligado al scroll: al volver, reaparece.
       // Se salta lo anidado para no multiplicar la opacidad de padre e hijo.
+      // Lo que ya nace cerca del borde (la etiqueta del hero) empezaría a medio
+      // desvanecer sin haber hecho scroll: el tramo se recorta para arrancar en 0.
       gsap.utils
         .toArray<HTMLElement>("[data-reveal], [data-exit]", document.body)
         .filter((el) => !el.parentElement?.closest("[data-reveal], [data-exit]"))
         .forEach((el) => {
+          const exitRange = () => {
+            const bottom = el.getBoundingClientRect().bottom + window.scrollY;
+            const start = Math.max(0, bottom - window.innerHeight * 0.38);
+            const end = Math.max(start + 80, bottom - window.innerHeight * 0.06);
+            return { start, end };
+          };
           gsap.fromTo(
             el,
             { opacity: 1, y: 0 },
@@ -89,7 +97,12 @@ export function MotionReveal() {
               y: -24,
               ease: "none",
               immediateRender: false,
-              scrollTrigger: { trigger: el, start: "bottom 38%", end: "bottom 6%", scrub: 0.5 },
+              scrollTrigger: {
+                trigger: el,
+                start: () => exitRange().start,
+                end: () => exitRange().end,
+                scrub: 0.5,
+              },
             }
           );
         });
